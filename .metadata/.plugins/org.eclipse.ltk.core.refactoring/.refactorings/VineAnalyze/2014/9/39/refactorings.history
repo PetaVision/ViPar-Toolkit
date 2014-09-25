@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 3 elements from project &apos;VineAnalyze&apos;&#x0A;- Original project: &apos;VineAnalyze&apos;&#x0A;- Original elements:&#x0A;     VineAnalyze/src/(default package)&#x0A;     Main.java&#x0A;     Timer.java" description="Delete elements" element1="/src&lt;" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1411684805155" subPackages="false" version="1.0"/>
+</session>
