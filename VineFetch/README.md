@@ -13,22 +13,25 @@ Finally, the meta-data of the successfully downloaded videos are stored in a gen
 
 VineFetch comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
 
+##New Users
+
+
+
 ##Usage
 
-To use the tool, simply open a Terminal window, navigate to the directory containing the `vinescraper.jar` and your `twitter_credentials.json` file, and append the following optional runtime arguments at launch:
+To use the tool, simply open a Terminal window, navigate to the directory containing the `fetch.jar` , and append the following optional runtime arguments at launch:
 
-> `java -jar -Xmx2048M vinescraper.jar <NUM_VINES_TO_SCRAPE> <NUM_TWEETS_TO_SCRAPE> <NUM_VINES_PER_OUTPUT_FILE>`
+> `java -jar fetch.jar <FILEPATH_TO_JSON_FILE> <NAME_OF_OUTPUT_DIRECTORY>`
 
 
 ####Runtime arguments:
 
 | Argument	| Description |
 |---|---|
-| *java -jar -Xmx2048M* |	**MANDATORY** - Runs Java with 2 gigabytes of memory expecting a runnable JAR file. |
-| *vinescraper.jar* | **MANDATORY** -	Specifies the runnable JAR file. |
-| *NUM_VINES_TO_SCRAPE* |	Number of vines to scrape. (Default: 10,000,000) |
-| *NUM_TWEETS_TO_SCRAPE* |	Number of Tweet objects to collect before finishing the run. (Default: -1 for infinite) |
-| *NUM_VINES_PER_OUTPUT_FILE* |	Number of scraped Vine JSON objects to output per file. (Default: 1,000) |
+| *java -jar * |	**MANDATORY** - Runs Java expecting a runnable JAR file. |
+| *fetch.jar* | **MANDATORY** -	Specifies the runnable JAR file. |
+| *FILEPATH_TO_JSON_FILE* |	**MANDATORY** - Filepath to JSON file containing download urls. |
+| *NAME_OF_OUTPUT_DIRECTORY* | **MANDATORY** - Name of output directory. Be descriptive! |
 
 ####Example runs:
 
