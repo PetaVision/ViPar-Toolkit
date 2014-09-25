@@ -5,7 +5,7 @@ Download Vine videos from URLs stored in a user-specified JSON file.
 
 ##How it Works
 
-VineFetch is a Java program that reads in a user-specified JSON file containing URLs to Vine videos and downloads the .MP4 video content. Vine videos which no longer exist are skipped while succesfully downloaded videos are saved to a generated directory.
+VineFetch is a Java program that reads in a user-specified JSON file containing URLs to Vine videos and downloads the (.MP4) video content. Vine videos which no longer exist are skipped while succesfully downloaded videos are saved to a generated directory.
 
 Finally, the meta-data of the successfully downloaded videos are stored in a generated `vines.json` file.
 
@@ -33,7 +33,7 @@ To use the tool, simply open a Terminal window, navigate to the directory contai
 
 > `java -jar fetch.jar filter-result.json dog`  
 
-   - Launches VineFetch on the file `filter-result.json` and stores (.MP4) files in a directory called "dog". 
+   - Launches VineFetch on the file `filter-result.json` and stores the (.MP4) files in a directory called "dog". 
 
 
 ##Requirements
