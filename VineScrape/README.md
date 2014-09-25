@@ -1,14 +1,14 @@
  
-#VineScraper
+#VineScrape
 Collects Vine videos from the Twitter Streaming API and generates linguistic meta-data.
 
 ##How it Works
 
-VineScraper is a multi-threaded Java program that accesses the [Twitter Streaming API](https://dev.twitter.com/streaming/overview) and collects Status objects that contain unique URLs to Vine videos.
+VineScrape is a multi-threaded Java program that accesses the [Twitter Streaming API](https://dev.twitter.com/streaming/overview) and collects Status objects that contain unique URLs to Vine videos.
 
-VineScraper then navigates to the URLs and parses out the text description (if any), ID, and full URL to the .mp4 video. The text description is scrubbed of emoticons and other micro-text phenomena and an attempt to segment interior hashtags is made.
+VineScrape then navigates to the URLs and parses out the text description (if any), ID, and full URL to the .mp4 video. The text description is scrubbed of emoticons and other micro-text phenomena and an attempt to segment interior hashtags is made.
 
-Next, VineScraper tags out the scrubbed text description's parts-of-speech using the [CMU Twitter Part-of-Speech Tagger](http://www.ark.cs.cmu.edu/TweetNLP/). The POS tags are then fed into the [Stanford CoreNLP Grammar Dependency Parser](http://nlp.stanford.edu/software/stanford-dependencies.shtml) to tag out the grammar relationships.
+Next, VineScrape tags out the scrubbed text description's parts-of-speech using the [CMU Twitter Part-of-Speech Tagger](http://www.ark.cs.cmu.edu/TweetNLP/). The POS tags are then fed into the [Stanford CoreNLP Grammar Dependency Parser](http://nlp.stanford.edu/software/stanford-dependencies.shtml) to tag out the grammar relationships.
 
 Finally, everything is saved to a generated directory in JSON format.
 
@@ -42,9 +42,9 @@ Finally, everything is saved to a generated directory in JSON format.
 
 ##Download
 
-VineScraper comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
+VineScrape comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
 
-#####[vinescraper.jar](https://drive.google.com/file/d/0B2ZkhS0DTgolNHRRblRUWFJYMkE/edit?usp=sharing) **(Click to download)**
+#####[vinescrape.jar](https://drive.google.com/file/d/0B2ZkhS0DTgoleFFvazZ2dFh5eFE/edit?usp=sharing) **(Click to download)**
 
 *Due to the filesizes of the Stanford CoreNLP libary and the CMU Twitter Part-of-Speech Tagger the stand-alone, runnable JAR file is too large (~123MB) to host on Github.*
 
@@ -52,7 +52,7 @@ VineScraper comes as both a stand-alone, runnable JAR file and an open-source Ja
 
 You must create a Twitter application to begin accessing the APIs. Visit [dev.twitter.com/apps](https://apps.twitter.com/) and log in with your Twitter account to create a new app. You will then be given your API keys.
 
-Make a new file called `twitter_credentials.json` and copy and paste the following snippet inside, substituting in your API keys. Save this file in the same directory as `vinescraper.jar`.
+Make a new file called `twitter_credentials.json` and copy and paste the following snippet inside, substituting in your API keys. Save this file in the same directory as `vinescrape.jar`.
 
 **twitter_credentials.json**
 
@@ -64,9 +64,9 @@ Make a new file called `twitter_credentials.json` and copy and paste the followi
 
 ##Usage
 
-To use the tool, simply open a Terminal window, navigate to the directory containing the `vinescraper.jar` and your `twitter_credentials.json` file, and append the following optional runtime arguments at launch:
+To use the tool, simply open a Terminal window, navigate to the directory containing the `vinescrape.jar` and your `twitter_credentials.json` file, and append the following optional runtime arguments at launch:
 
-> `java -jar -Xmx2048M vinescraper.jar <NUM_VINES_TO_SCRAPE> <NUM_TWEETS_TO_SCRAPE> <NUM_VINES_PER_OUTPUT_FILE>`
+> `java -jar -Xmx2048M vinescrape.jar <NUM_VINES_TO_SCRAPE> <NUM_TWEETS_TO_SCRAPE> <NUM_VINES_PER_OUTPUT_FILE>`
 
 
 ####Runtime arguments:
@@ -81,22 +81,22 @@ To use the tool, simply open a Terminal window, navigate to the directory contai
 
 ####Example runs:
 
-> `java -jar -Xmx2048M vinescraper.jar`  
+> `java -jar -Xmx2048M vinescrape.jar`  
 
-   - Launches VineScraper with all the default values.  
+   - Launches VineScrape with all the default values.  
 
-> `java -jar -Xmx2048M vinescraper.jar -1`  
+> `java -jar -Xmx2048M vinescrape.jar -1`  
    
    - Scrapes Vines ad infinitum until the run is killed.  
    - All remaining runtime arguments take their default values. 
    
-> `java -jar -Xmx2048M vinescraper.jar -1 100000`   
+> `java -jar -Xmx2048M vinescrape.jar -1 100000`   
    
    - Scrapes Vines ad infinitum until the run is killed.  
    - Kills run after 1,000,000 Tweets have been scraped.  
    - Remaining runtime argument takes its default value.    
 
-> `java -jar -Xmx2048M vinescraper.jar -1 -1 10000`  
+> `java -jar -Xmx2048M vinescrape.jar -1 -1 10000`  
    
    - Scrapes Vines ad infinitum until the run is killed.   
    - Scrapes Tweets ad infinitum until the run is killed.  
@@ -106,9 +106,9 @@ To use the tool, simply open a Terminal window, navigate to the directory contai
 
 ##Requirements
 
-VineScraper needs 2 gigabytes of memory in order to tag out the linguistic meta-data.
+VineScrape needs 2 gigabytes of memory in order to tag out the linguistic meta-data.
 
-VineScraper also requires Java. Download the latest version [here](http://www.java.com/).
+VineScrape also requires Java. Download the latest version [here](http://www.java.com/).
 
 ##Possible Issues
 
