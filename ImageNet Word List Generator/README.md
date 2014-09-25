@@ -1,4 +1,4 @@
-ImageNet-Word-List-Generator
+ImageNet Word List Generator
 ============================
 
 Creates word lists of ImageNet hyponyms based on a user-specified category word.
