@@ -11,25 +11,7 @@ Finally, the meta-data of the successfully downloaded videos are stored in a gen
 
 ##Download
 
-VineScraper comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
-
-#####[vinescraper.jar](https://drive.google.com/file/d/0B2ZkhS0DTgolNHRRblRUWFJYMkE/edit?usp=sharing) **(Click to download)**
-
-*Due to the filesizes of the Stanford CoreNLP libary and the CMU Twitter Part-of-Speech Tagger the stand-alone, runnable JAR file is too large (~123MB) to host on Github.*
-
-##New Users
-
-You must create a Twitter application to begin accessing the APIs. Visit [dev.twitter.com/apps](https://apps.twitter.com/) and log in with your Twitter account to create a new app. You will then be given your API keys.
-
-Make a new file called `twitter_credentials.json` and copy and paste the following snippet inside, substituting in your API keys. Save this file in the same directory as `vinescraper.jar`.
-
-**twitter_credentials.json**
-
-    {   "consumer_key":"*************************",
-        "consumer_secret":"**************************************************",
-        "access_token":"**************************************************",
-        "access_secret":"*********************************************" 
-    }
+VineFetch comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
 
 ##Usage
 
