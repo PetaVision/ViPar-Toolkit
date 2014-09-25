@@ -47,15 +47,16 @@ ImageNet Word List Generator comes as both a stand-alone, runnable JAR file and 
 
 To use the tool, simply open a Terminal window, navigate to the directory containing the `inwlg.jar` file, and run the following command:
 
-> `java -jar inwlg.jar -Xmx1024M`
+> `java -jar -Xmx1024M inwlg.jar`
 
 
 ####Command arguments:
 
 | Argument	| Description |
 |---|---|
-| *java -jar inwlg.jar* |	**MANDATORY** - Runs the JAR file. |
-| *-Xmx1024M* | **MANDATORY** -	Gives the run a maximum of 1 gigabytes of memory. |
+| *java -jar* |	**MANDATORY** - Runs Java expecting a runnable JAR file. |
+| *-Xmx1024M* | **MANDATORY** -	Gives the run a maximum of 1 gigabyte of memory. |
+| *inwlg.jar* | **MANDATORY** - Specifies the runnable JAR file. |
 
 
 ##Requirements
