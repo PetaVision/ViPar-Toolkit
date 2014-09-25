@@ -1,7 +1,7 @@
 VineFetch
 =====
 
-Download Vine videos from URLs stored in a user-specified JSON file.
+Downloads Vine videos from URLs stored in a user-specified JSON file.
 
 ##How it Works
 
