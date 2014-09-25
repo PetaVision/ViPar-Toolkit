@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry exported="true" kind="lib" path="Stanford CoreNLP/3.3.1/stanford-corenlp-3.3.1.jar" sourcepath="Stanford CoreNLP/3.3.1/stanford-corenlp-3.3.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/VineScraper/Stanford%20CoreNLP/3.3.1/stanford-corenlp-3.3.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="Stanford CoreNLP/3.3.1/stanford-corenlp-caseless-2013-11-12-models.jar"/>
+	<classpathentry kind="lib" path="Apache Commons IO/commons-io-2.4.jar" sourcepath="Apache Commons IO/commons-io-2.4-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/TwitterApiScraper/Apache%20Commons%20IO/commons-io-2.4-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="Apache Commons Lang/commons-lang3-3.3.2.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/TwitterApiScraper/Apache%20Commons%20Lang/commons-lang3-3.3.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="ARK TweetNLP/ark-tweet-nlp-0.3.2.jar" sourcepath="ARK TweetNLP/ark-tweet-nlp-0.3.2-sources.jar"/>
+	<classpathentry kind="lib" path="Minimal JSON Parser/minimal-json-0.9.2-SNAPSHOT.jar" sourcepath="Minimal JSON Parser/minimal-json-0.9.2-SNAPSHOT-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/TwitterApiScraper/Minimal%20JSON%20Parser/minimal-json-0.9.2-SNAPSHOT-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="Stanford CoreNLP/Joda Time/joda-time.jar" sourcepath="Stanford CoreNLP/Joda Time/joda-time-2.1-sources.jar"/>
+	<classpathentry kind="lib" path="Stanford CoreNLP/Jolly Day/jollyday.jar" sourcepath="Stanford CoreNLP/Jolly Day/jollyday-0.4.7-sources.jar"/>
+	<classpathentry kind="lib" path="Stanford CoreNLP/ejml-0.23.jar"/>
+	<classpathentry kind="lib" path="Twitter4J/twitter4j-async-4.0.2.jar"/>
+	<classpathentry kind="lib" path="Twitter4J/twitter4j-core-4.0.2.jar"/>
+	<classpathentry kind="lib" path="Twitter4J/twitter4j-examples-4.0.2.jar"/>
+	<classpathentry kind="lib" path="Twitter4J/twitter4j-media-support-4.0.2.jar"/>
+	<classpathentry kind="lib" path="Twitter4J/twitter4j-stream-4.0.2.jar"/>
+	<classpathentry kind="lib" path="Stanford CoreNLP/Xom/xom.jar" sourcepath="Stanford CoreNLP/Xom/xom-1.2.10-src.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
