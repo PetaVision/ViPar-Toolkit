@@ -1,0 +1,384 @@
+package dannydelott.vinescrape.bufferthread;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
+import cmu.arktweetnlp.Tagger;
+import cmu.arktweetnlp.Tagger.TaggedToken;
+
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+
+import dannydelott.vinescraper.hashtags.HashTagSegmenter;
+import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
+import edu.stanford.nlp.trees.GrammaticalStructure;
+import edu.stanford.nlp.trees.GrammaticalStructureFactory;
+import edu.stanford.nlp.trees.PennTreebankLanguagePack;
+import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.trees.TreebankLanguagePack;
+import edu.stanford.nlp.trees.TypedDependency;
+
+public class Vine {
+
+	// ///////////////////
+	// GLOBAL VARIABLES //
+	// ///////////////////
+
+	// ------------
+	// VINE OBJECTS
+	// ------------
+
+	private long id;
+	private String url;
+	private String downloadUrl;
+	private String text;
+	private String scrubbedText;
+	private List<TaggedToken> taggedTokens;
+	private List<TypedDependency> typedDependencies;
+	private JsonObject vineJsonObject;
+
+	// --------------------
+	// VINE PARSING OBJECTS
+	// --------------------
+
+	private Tagger tagger;
+	private LexicalizedParser lexicalizedParser;
+	private HashSet<String> largeWordList;
+
+	// //////////////
+	// CONSTRUCTOR //
+	// //////////////
+
+	public Vine(HashSet<String> largeWordList, Tagger tagger,
+			LexicalizedParser lexicalizedParser) {
+
+		this.largeWordList = largeWordList;
+		this.tagger = tagger;
+		this.lexicalizedParser = lexicalizedParser;
+	}
+
+	// /////////////////
+	// PUBLIC METHODS //
+	// /////////////////
+
+	/**
+	 * Scrubs the text and tags out parts of speech and grammar dependencies.
+	 */
+	public boolean parseVine() {
+
+		// copy of text to operate on
+		String theText = text;
+
+		// -----------------------------
+		// 1.
+		// REMOVES NEW LINES AND UNICODE
+		// -----------------------------
+
+		theText = theText.replace("\n", "");
+		theText = theText.replaceAll("\\\\u[a-z0-9]+", "");
+
+		// ------------------------
+		// 2.
+		// TAGS PARTS-OF-SPEECH (1)
+		// ------------------------
+
+		taggedTokens = tagPartsOfSpeech(theText);
+		if (taggedTokens == null) {
+			return false;
+		}
+
+		// -------------------------------------------
+		// 3.
+		// REMOVES TAGGED EMOTICONS, URLs and HASHTAGS
+		// -------------------------------------------
+
+		boolean foundUrl = false;
+		try {
+
+			// Removes tokens tagged as emoticons, urls or hashtags
+			for (TaggedToken taggedToken : taggedTokens) {
+
+				// removes emoticons
+				if (taggedToken.tag.equals("UH")) {
+					theText = theText.replace(taggedToken.token, "");
+				}
+
+				// removes urls
+				if (taggedToken.tag.equals("URL")) {
+					foundUrl = true;
+					theText = theText.replace(taggedToken.token, "");
+				}
+
+				// removes hashtags found after the url
+				if (taggedToken.tag.equals("HT") && foundUrl) {
+					theText = theText.replace(taggedToken.token, "");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		// ------------------------
+		// 4.
+		// TAGS PARTS-OF-SPEECH (2)
+		// ------------------------
+
+		taggedTokens = tagPartsOfSpeech(theText);
+		if (taggedTokens == null) {
+			return false;
+		}
+
+		// --------------------------
+		// 5.
+		// SEGMENTS INTERIOR HASHTAGS
+		// --------------------------
+
+		HashTagSegmenter hts = new HashTagSegmenter(largeWordList, taggedTokens);
+		String segmentedText = null;
+
+		// Segments interior hashtags,
+		// returns null if segmentation cannot be performed
+		try {
+			segmentedText = hts.segmentInteriorHashTags();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (segmentedText != null) {
+			theText = segmentedText;
+		}
+
+		// ---------------------------
+		// 6.
+		// REMOVES ILLEGAL PUNCTUATION
+		//
+		// " ", "^", "[", ".", "$",
+		// "{", "*", "(", "\", "+",
+		// ")", "|", "?", "<", ">",
+		// "-", "!", "#", ",", "_",
+		// "=", "@", "%", "&",
+		// ---------------------------
+
+		String beginPunct = "^[\\s\\^\\[\\.,\\$\\{\\*\\\\+\\)\\|\\?\\<\\>\\-!=@%&_]+";
+		String endPunct = "[\\s\\^\\$\\{\\*\\(\\\\+\\|\\<\\-,=#@%&_]+$";
+
+		// from start of text
+		theText.replaceAll(beginPunct, "");
+
+		// from end of text
+		theText.replaceAll(endPunct, "");
+
+		// ----------------------------
+		// 7.
+		// TAGS PARTS-OF-SPEECH (FINAL)
+		// ----------------------------
+
+		taggedTokens = tagPartsOfSpeech(theText);
+		if (taggedTokens == null) {
+			return false;
+		}
+
+		// **formats posTaggedTokens into strings and stores them in JsonArray**
+		JsonArray posTags = new JsonArray();
+		String s1;
+		for (TaggedToken tt : taggedTokens) {
+			s1 = tt.tag + "-" + tt.token;
+			posTags.add(s1);
+		}
+
+		// ------------------
+		// 8.
+		// SETS SCRUBBED TEXT
+		// ------------------
+
+		scrubbedText = theText;
+
+		// -------------------------
+		// 9.
+		// TAGS GRAMMAR DEPENDENCIES
+		// -------------------------
+
+		// converts posTaggedTokens into List<TaggedWord>
+		List<TaggedWord> taggedWords = new ArrayList<TaggedWord>();
+		for (int l = 0; l < taggedTokens.size(); l++) {
+			taggedWords.add(new TaggedWord(taggedTokens.get(l).token,
+					taggedTokens.get(l).tag));
+		}
+
+		// tags the grammar dependencies
+		TreebankLanguagePack tlp = new PennTreebankLanguagePack();
+		GrammaticalStructureFactory gsf = tlp.grammaticalStructureFactory();
+		Tree parse = lexicalizedParser.parse(taggedWords);
+		GrammaticalStructure gs = gsf.newGrammaticalStructure(parse);
+		typedDependencies = gs.typedDependenciesCCprocessed();
+
+		// formats grammarDependencies into strings and stores in JsonArray
+		JsonArray grammarDependencies = new JsonArray();
+		String s2;
+		for (TypedDependency dependency : typedDependencies) {
+			s2 = dependency.reln().toString() + "("
+					+ dependency.gov().toString() + ","
+					+ dependency.dep().toString() + ")";
+			grammarDependencies.add(s2);
+
+		}
+
+		// --------------------------
+		// 10.
+		// POPULATES VINE JSON OBJECT
+		// --------------------------
+
+		vineJsonObject = new JsonObject();
+		vineJsonObject.add("id", id);
+		vineJsonObject.add("url", url);
+		vineJsonObject.add("text", text);
+		vineJsonObject.add("scrubbed_text", scrubbedText);
+		vineJsonObject.add("pos_tags", posTags);
+		vineJsonObject.add("grammar_dependencies", grammarDependencies);
+		vineJsonObject.add("download_url", downloadUrl);
+
+		return true;
+	}
+
+	public static List<String> getPosTagsOrTokens(TagType type,
+			List<TaggedToken> pos) {
+		List<String> temp = new ArrayList<String>();
+
+		switch (type) {
+
+		case TAG:
+
+			for (TaggedToken t : pos) {
+				temp.add(t.tag);
+			}
+			return temp;
+
+		case TOKEN:
+
+			for (TaggedToken t : pos) {
+				temp.add(t.token);
+			}
+			return temp;
+
+		default:
+			break;
+		}
+
+		return null;
+	}
+
+	// //////////////////
+	// PRIVATE METHODS //
+	// //////////////////
+
+	/**
+	 * Returns a list of strings that are the taggedTokens tags or tokens.
+	 * 
+	 * @param type
+	 *            TAG or TOKEN
+	 * @param taggedTokens
+	 *            List of TagggedTokens to separate
+	 * @return List of tags or tokens
+	 */
+	private List<String> getTags(TagType type) {
+
+		List<String> temp = new ArrayList<String>();
+
+		switch (type) {
+
+		case POS:
+			for (TaggedToken t : taggedTokens) {
+				temp.add(t.tag);
+			}
+
+			return temp;
+
+		case RELATION:
+			for (TypedDependency t : typedDependencies) {
+				temp.add(t.reln().toString());
+			}
+
+			return temp;
+		default:
+			break;
+		}
+
+		return null;
+	}
+
+	private List<TaggedToken> tagPartsOfSpeech(String text) {
+
+		List<TaggedToken> taggedTokens = null;
+
+		if (text.length() == 0) {
+			return null;
+		}
+
+		try {
+			taggedTokens = tagger.tokenizeAndTag(text);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (taggedTokens == null) {
+			return null;
+		}
+
+		return taggedTokens;
+
+	}
+
+	// /////////////////
+	// GLOBAL GETTERS //
+	// /////////////////
+
+	public long getId() {
+		return id;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public JsonObject getVineJsonObject() {
+		return vineJsonObject;
+	}
+
+	public HashSet<String> getPosTags() {
+		return new HashSet<String>(getTags(TagType.POS));
+	}
+
+	public HashSet<String> getRelationTags() {
+		return new HashSet<String>(getTags(TagType.RELATION));
+	}
+
+	// /////////////////
+	// GLOBAL SETTERS //
+	// /////////////////
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public void setDownloadUrl(String downloadUrl) {
+
+		this.downloadUrl = downloadUrl;
+	}
+
+}
