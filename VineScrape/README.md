@@ -74,7 +74,7 @@ To use the tool, simply open a Terminal window, navigate to the directory contai
 | Argument	| Description |
 |---|---|
 | *java -jar -Xmx2048M* |	**MANDATORY** - Runs Java with 2 gigabytes of memory expecting a runnable JAR file. |
-| *vinescraper.jar* | **MANDATORY** -	Specifies the runnable JAR file. |
+| *vinescrape.jar* | **MANDATORY** -	Specifies the runnable JAR file. |
 | *NUM_VINES_TO_SCRAPE* |	Number of vines to scrape. (Default: 10,000,000) |
 | *NUM_TWEETS_TO_SCRAPE* |	Number of Tweet objects to collect before finishing the run. (Default: -1 for infinite) |
 | *NUM_VINES_PER_OUTPUT_FILE* |	Number of scraped Vine JSON objects to output per file. (Default: 1,000) |
