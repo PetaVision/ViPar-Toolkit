@@ -13,10 +13,6 @@ Finally, the meta-data of the successfully downloaded videos are stored in a gen
 
 VineFetch comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
 
-##New Users
-
-
-
 ##Usage
 
 To use the tool, simply open a Terminal window, navigate to the directory containing the `fetch.jar` , and append the following optional runtime arguments at launch:
@@ -33,40 +29,20 @@ To use the tool, simply open a Terminal window, navigate to the directory contai
 | *FILEPATH_TO_JSON_FILE* |	**MANDATORY** - Filepath to JSON file containing download urls. |
 | *NAME_OF_OUTPUT_DIRECTORY* | **MANDATORY** - Name of output directory. Be descriptive! |
 
-####Example runs:
+####Example run:
 
-> `java -jar fetch.jar`  
+> `java -jar fetch.jar filter-result.json dog`  
 
-   - Launches VineScraper with all the default values.  
-
-> `java -jar fetch.jar`  
-   
-   - Scrapes Vines ad infinitum until the run is killed.  
-   - All remaining runtime arguments take their default values. 
-   
-> `java -jar fetch.jar`   
-   
-   - Scrapes Vines ad infinitum until the run is killed.  
-   - Kills run after 1,000,000 Tweets have been scraped.  
-   - Remaining runtime argument takes its default value.    
-
-> `java -jar -Xmx2048M vinescraper.jar -1 -1 10000`  
-   
-   - Scrapes Vines ad infinitum until the run is killed.   
-   - Scrapes Tweets ad infinitum until the run is killed.  
-   - Stores 10,000 Vine JSON objects per output file.   
-
+   - Launches VineFetch on the file `filter-result.json` and stores (.MP4) files in a directory called "dog". 
 
 
 ##Requirements
-
-VineScraper needs 2 gigabytes of memory in order to tag out the linguistic meta-data.
 
 VineScraper also requires Java. Download the latest version [here](http://www.java.com/).
 
 ##Possible Issues
 
-The actual number of vines per output file may vary by one or two vines due to concurrency.
+The actual number of videos downloaded may be fewer than the number in the JSON file since some videos may no longer exist on Vine.
 
 ##Credits
 
