@@ -28,23 +28,23 @@ To use the tool, simply open a Terminal window, navigate to the directory contai
 
 | Argument	| Description |
 |---|---|
-| *java -jar * |	**MANDATORY** - Runs Java expecting a runnable JAR file. |
+| *java -jar* |	**MANDATORY** - Runs Java expecting a runnable JAR file. |
 | *fetch.jar* | **MANDATORY** -	Specifies the runnable JAR file. |
 | *FILEPATH_TO_JSON_FILE* |	**MANDATORY** - Filepath to JSON file containing download urls. |
 | *NAME_OF_OUTPUT_DIRECTORY* | **MANDATORY** - Name of output directory. Be descriptive! |
 
 ####Example runs:
 
-> `java -jar -Xmx2048M vinescraper.jar`  
+> `java -jar fetch.jar`  
 
    - Launches VineScraper with all the default values.  
 
-> `java -jar -Xmx2048M vinescraper.jar -1`  
+> `java -jar fetch.jar`  
    
    - Scrapes Vines ad infinitum until the run is killed.  
    - All remaining runtime arguments take their default values. 
    
-> `java -jar -Xmx2048M vinescraper.jar -1 100000`   
+> `java -jar fetch.jar`   
    
    - Scrapes Vines ad infinitum until the run is killed.  
    - Kills run after 1,000,000 Tweets have been scraped.  
