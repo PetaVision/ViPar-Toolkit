@@ -38,7 +38,7 @@ To use the tool, simply open a Terminal window, navigate to the directory contai
 
 ##Requirements
 
-VineScraper also requires Java. Download the latest version [here](http://www.java.com/).
+VineScraper requires Java. Download the latest version [here](http://www.java.com/).
 
 ##Possible Issues
 
