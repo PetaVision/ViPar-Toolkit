@@ -1,10 +1,14 @@
 package dannydelott.vinefetch;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -32,6 +36,7 @@ public class Main {
 	 * @param args
 	 *            [0] filepath to JSON file to parse<br />
 	 *            [1] name of output directory, be descriptive!<br />
+	 *            [2] print the html or not of each vine page
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
@@ -46,6 +51,7 @@ public class Main {
 
 		String resultsFile = args[0];
 		String saveDirectory = args[1];
+		String printHtml = args[2];
 
 		long timestamp = System.currentTimeMillis();
 
@@ -85,11 +91,14 @@ public class Main {
 
 			// gets the download url
 			String downloadUrl;
-			downloadUrl = json.get("download_url").asString();
+			downloadUrl = parseVideoUrl(json.get("url").asString(), printHtml);
 			if (downloadUrl == null) {
 				System.out.println("video not found.");
 				continue;
 			}
+
+			// adds the download url to the json object
+			json.add("download_url", downloadUrl);
 
 			// creates the File object for grabbing
 			File f = new File(outputDirectory + "/" + id + ".mp4");
@@ -120,6 +129,93 @@ public class Main {
 		if (!f.isDirectory()) {
 			f.mkdir();
 		}
+	}
+
+	/**
+	 * Parses the given url and returns a String containing the download url to
+	 * the video.
+	 * 
+	 * @return String containing the .mp4 url to the vine video
+	 * 
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws NullPointerException
+	 */
+	public static String parseVideoUrl(String url, String printHtml) {
+
+		// gets the url's html
+		String html = null;
+
+		try {
+			html = sendGet(url);
+			if (printHtml.toLowerCase().contentEquals("true")) {
+				System.out.println(html);
+			}
+		} catch (IOException e) {
+			return null;
+		}
+
+		// if 404 or the url suffix is missing from the html
+		if (html == null || html.contains("Page not found Ñ Vine")
+				|| html.contains("<title>Vine</title>")) {
+			return null;
+		}
+
+		// parses out the .mp4 file path
+		String[] split = html.split("<meta itemprop=\"contentURL\" content=\"");
+		split = split[1].split("\\?versionId");
+		return split[0];
+
+	}
+
+	public static String sendGet(String u) throws IOException {
+
+		String url = u;
+		String USER_AGENT = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36";
+		URL obj = new URL(url);
+
+		try {
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+			// handles the response code 301 redirect from vine URLs
+			String redirect = con.getHeaderField("Location");
+			if (redirect != null) {
+				obj = new URL(redirect);
+				con = (HttpURLConnection) obj.openConnection();
+			}
+
+			// optional default is GET
+			con.setRequestMethod("GET");
+
+			// add request header
+			con.setRequestProperty("User-Agent", USER_AGENT);
+
+			int responseCode = con.getResponseCode();
+
+			// System.out.println("\nSending 'GET' request to URL : " + url);
+			// System.out.println("Response Code : " + responseCode);
+
+			if (responseCode > 200) {
+				return null;
+			}
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			// print result
+			return response.toString();
+
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 
 	public static int countLines(String filename) throws IOException {
