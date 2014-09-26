@@ -130,7 +130,7 @@ To create a Strings Object, simply copy and paste the following JSON object into
 
 ####3. Filters
 
-*MANDATORY* - The **Filters** section of the settings file is where users will create the specific parameters by which Vines will be accepted or trashed.  These parameters can be based off of the text description as-is or the grammatical structure of the text description given in the linguistic meta-data.
+**MANDATORY** - The **Filters** section of the settings file is where users will create the specific parameters by which Vines will be accepted or trashed.  These parameters can be based off of the text description as-is or the grammatical structure of the text description given in the linguistic meta-data.
 
 To create a Filter, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.
 
@@ -155,11 +155,16 @@ To create a Filter, simply copy and paste the following JSON object into a setti
     
 | Field | Argument | Description |
 |---|---|---|
-| *entry* | "s" |	**MANDATORY** - Use "s" to specify a Strings Object. |
-| *name* | NAME_OF_STRINGS_OBJECT| **MANDATORY** - The name to use when calling the Strings Object in a Filter expression token.|
-| *description* | DESCRIPTION | **MANDATORY** - A brief description about the Strings Objects values and intended use.|
-| *values* | STRING_LITERAL_*| **MANDATORY** - The String literals to include in this String Object. |
-
+| *entry* | "filter" |	**MANDATORY** - Use "filter" to specify a Filter. |
+| *name* | NAME_OF_FILTER| **MANDATORY** - The name to use when calling the Filter.|
+| *type* | FILTER_TYPE| **MANDATORY** - Use "void" or "validate"  to specify Filter type.|
+| *description* | DESCRIPTION | **MANDATORY** - A brief description about the Filter values and intended use.|
+| *textContains* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the Vine's text description. |
+| *scrubbedTextContains* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the Vine's scrubbed text description.|
+| *grammarDependency* |  | *OPTIONAL* - Sets the filter to evaluate a specific grammar relation. |
+| *relation* | RELATION_TAG | **MANDATORY** - Specifies the relation tag to evaluate if `grammarDependency` is set. |
+| *governor* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's governor value.|
+| *dependent* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's dependent value.|
 
 
 **Example:**
