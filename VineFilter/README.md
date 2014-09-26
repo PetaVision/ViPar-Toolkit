@@ -199,27 +199,36 @@ The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-state
 			}
     }
     
-> - Creates a .
-> - Includes a description for user purposes.
-> - Sets a JSON array with the intended String values.
+> - Creates a void filter called "prep_like".
+> - Sets a filter expression on the Vine object's "prep_like" grammar relation.
+> - Voids the Vine if the Vine's meta-data has a "prep_like" grammar relation containing a target word as the dependent.
 
+    {	"entry":"filter",
+		"name":"hashtag",
+		"type":"validate",
+		"description":"Validate the tweet if a target word exists as a hashtag.",
+		"textContains":"([@Literal:#][@TargetWord:NO_SPACES])"
+    }
+    
+> - Creates a validate filter called "hashtag".
+> - Sets a filter expression on the Vine object's text description.
+> - Validates the Vine if the text contains a target word 1-gram with a '#' hashtag in front.
 
 ##Usage
 
-To use the tool, simply open a Terminal window, navigate to the directory containing the `vinescrape.jar` and your `twitter_credentials.json` file, and append the following optional runtime arguments at launch:
+To use the VineFilter, open a Terminal window, navigate to the directory containing the `filter.jar`  file, and append the following runtime arguments at launch:
 
-> `java -jar -Xmx2048M vinescrape.jar <NUM_VINES_TO_SCRAPE> <NUM_TWEETS_TO_SCRAPE> <NUM_VINES_PER_OUTPUT_FILE>`
+> `java -jar filter.jar <FILEPATH_TO_SETTINGS_FILE> <DO_SINGLE_VINE>`
 
 
 ####Runtime arguments:
 
 | Argument	| Description |
 |---|---|
-| *java -jar -Xmx2048M* |	**MANDATORY** - Runs Java with 2 gigabytes of memory expecting a runnable JAR file. |
-| *vinescrape.jar* | **MANDATORY** -	Specifies the runnable JAR file. |
-| *NUM_VINES_TO_SCRAPE* |	Number of vines to scrape. (Default: 10,000,000) |
-| *NUM_TWEETS_TO_SCRAPE* |	Number of Tweet objects to collect before finishing the run. (Default: -1 for infinite) |
-| *NUM_VINES_PER_OUTPUT_FILE* |	Number of scraped Vine JSON objects to output per file. (Default: 1,000) |
+| *java -jar* |	**MANDATORY** - Runs Java expecting a runnable JAR file. |
+| *filter.jar* | **MANDATORY** - Specifies the runnable JAR file. |
+| *FILEPATH_TO_SETTINGS_FILE* |	The location to the settings file. |
+| *DO_SINGLE_VINE* |	TRUE or FALSE.  Run VineFilter on an individual Vine object. (Default: FALSE) |
 
 ####Example runs:
 
