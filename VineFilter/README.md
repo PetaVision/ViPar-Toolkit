@@ -129,7 +129,7 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 **Syntax:**
     
     {	"entry":"filter",
-		"name":"<NAME_OF_FILTER>",
+		"name":"<FILTER_NAME>",
 		"type":"<FILTER_TYPE>",
 		"description":"<DESCRIPTION>",
 		"enabled":<BOOLEAN>,
@@ -140,13 +140,14 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 			"relation":"<RELATION_TAG>",
 			"governor":"<FILTER_EXPRESSION>",
 			"dependent":"<FILTER_EXPRESSION>"
-			}
+			},
+		"children":["<FILTER_NAME_0>","<FILTER_NAME_1>", "<ETC...>"
     }
     
 | Field | Argument | Description |
 |---|---|---|
 | *entry* | "filter" |	**MANDATORY** - Use "filter" to specify a Filter. |
-| *name* | NAME_OF_FILTER| **MANDATORY** - The name to use when calling the Filter.|
+| *name* | FILTER_NAME| **MANDATORY** - The name to use when calling the Filter.|
 | *type* | FILTER_TYPE| **MANDATORY** - Specifies the Filter type. Use "void" to trash the Vine if the Filter is accepted. Use "validate" to increment the `validationQuota` if the Filter is accepted.|
 | *description* | DESCRIPTION | **MANDATORY** - A brief description about the Filter values and intended use.|
 | *enabled* | BOOLEAN | *OPTIONAL* - Specifies if the Filter is to be used. (Default set to TRUE.)|
@@ -157,6 +158,7 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 | *relation* | RELATION_TAG | **MANDATORY** - Specifies the relation tag to evaluate if `grammarDependency` is set. |
 | *governor* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's governor value.|
 | *dependent* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's dependent value.|
+| *children* | FILTER_NAME_* | *OPTIONAL* - The child Filters to evaluate in conjunction with the Filter declaring children (parent).|
 
 
 
@@ -238,7 +240,6 @@ The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-state
 > - Validates the Vine if the Vine's meta-data contains a target word in the governor and a string literal from the Strings Object named "DEMONSTRATIVE_PRONOUNS".
 
 
-
 ##Usage
 
 To use the VineFilter, open a Terminal window, navigate to the directory containing the `filter.jar`  file, and append the following runtime arguments at launch:
@@ -253,42 +254,28 @@ To use the VineFilter, open a Terminal window, navigate to the directory contain
 | *java -jar* |	**MANDATORY** - Runs Java expecting a runnable JAR file. |
 | *filter.jar* | **MANDATORY** - Specifies the runnable JAR file. |
 | *FILEPATH_TO_SETTINGS_FILE* |	The location to the settings file. |
-| *DO_SINGLE_VINE* |	TRUE or FALSE.  Run VineFilter on an individual Vine object. (Default: FALSE) |
+| *DO_SINGLE_VINE* |	TRUE or FALSE.  Run VineFilter on an individual Vine object. User will be prompted to provide a one-line JSON object containing the Vine. (Default: FALSE) |
 
 ####Example runs:
 
-> `java -jar -Xmx2048M vinescrape.jar`  
+> `java -jar filter.jar "settings.json"`  
 
-   - Launches VineScrape with all the default values.  
+   - Launches VineFilter with the settings file `settings.json`. 
 
-> `java -jar -Xmx2048M vinescrape.jar -1`  
+> `java -jar filter.jar "settings.json" true`  
    
-   - Scrapes Vines ad infinitum until the run is killed.  
-   - All remaining runtime arguments take their default values. 
-   
-> `java -jar -Xmx2048M vinescrape.jar -1 100000`   
-   
-   - Scrapes Vines ad infinitum until the run is killed.  
-   - Kills run after 1,000,000 Tweets have been scraped.  
-   - Remaining runtime argument takes its default value.    
-
-> `java -jar -Xmx2048M vinescrape.jar -1 -1 10000`  
-   
-   - Scrapes Vines ad infinitum until the run is killed.   
-   - Scrapes Tweets ad infinitum until the run is killed.  
-   - Stores 10,000 Vine JSON objects per output file.   
-
-
+   - Launches VineFilter with the settings file `settings.json`. 
+   - Runs VineFilter on a single Vine object.  The Vine object is given by the user in a prompt after launch.
 
 ##Requirements
 
-VineScrape needs 2 gigabytes of memory in order to tag out the linguistic meta-data.
-
-VineScrape also requires Java. Download the latest version [here](http://www.java.com/).
+VineScrape requires Java. Download the latest version [here](http://www.java.com/).
 
 ##Possible Issues
 
-The actual number of vines per output file may vary by one or two vines due to concurrency.
+Filter expressions cannot contain nested parenthesis, eg: `(([@TargetWord] || [@Literal:dog]) && ![@Strings:BLACKLIST])`
+
+Filter expressions must be wrapped in parenthesis, eg: `([@Literal:#][@TargetWord:NO_SPACES])`
 
 ##Credits
 
