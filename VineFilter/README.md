@@ -8,35 +8,7 @@ The real power of the ViPar toolkit is demonstrated in this tool.
 
 VineFilter is a Java program that uses Vine meta-data obtained via [VineScrape](https://github.com/DannyDelott/ViPar-Toolkit/tree/master/VineScrape) to select specific videos based on any number of user-specified criteria.  
 
-VineFilter uses a settings file that contains all of these user-specified criteria to return datasets of vine videos.  The settings file has 3 unique sections that each have parameters. 
-
-**Example:**
-    
-    {   "id":514887792674209792,
-        "url":"http://vine.co/v/b003Tzbjxxd",
-        "text":"Cutest thing I've ever seen. Perfect timing! \\ud83d\\ude38\\ud83d\\ude3b\\ud83d\\ude39",
-        "scrubbed_text":"Cutest thing I've ever seen. Perfect timing!",
-        "pos_tags":["JJS-Cutest",
-                    "NN-thing",
-                    "PRP-I've",
-                    "RB-ever",
-                    "VBN-seen",
-                    ".-.",
-                    "JJ-Perfect",
-                    "NN-timing",
-                    ".-!"
-                    ],
-        "grammar_dependencies":["nsubj(Perfect-7,Cutest-1)",
-                                "dep(Cutest-1,thing-2)",
-                                "dobj(seen-5,thing-2)",
-                                "nsubj(seen-5,I've-3)",
-                                "advmod(seen-5,ever-4)",
-                                "rcmod(thing-2,seen-5)",
-                                "root(ROOT-0,Perfect-7)",
-                                "dobj(Perfect-7,timing-8)"
-                                ],
-        "download_url":"https://v.cdn.vine.co/r/videos/9477573C-A7B9-4718-8F91-DD7F960678FD-28581-000015F9AA8A427D_1.1.mp4"
-    }
+VineFilter uses a settings file that contains all of these user-specified criteria to return datasets of vine videos.  The settings file is separated into 3 unique sections that each have their own parameters. (See [Settings File](#settingsfile))
 
 ##Download
 
