@@ -56,24 +56,24 @@ To create the Run Configuration section, simply copy and paste the following JSO
 
 **Example**
 
->    // ////////////////////
->    // RUN CONFIGURATION //
->    // ////////////////////
+    // ////////////////////
+    // RUN CONFIGURATION //
+    // ////////////////////
+   
+    {	"entry":"config",
+		"startAt":1,
+		"numToCollect":100,
+		"validationQuota":2,
+		"targetWordsFile":"Users/johndoe/Desktop/target-words.json",
+		"datasetDirectory":"Users/johndoe/Desktop/vines.1410565068",
+		"posTagsFile":"Users/johndoe/Desktop/vines.1410565068/pos_tags.txt",
+		"relationTagsFile":"Users/johndoe/Desktop/vines.1410565068/relation_tags.txt"
+    }
     
->    {	"entry":"config",
->		"startAt":1,
->		"numToCollect":100,
->		"validationQuota":2,
->		"targetWordsFile":"Users/johndoe/Desktop/target-words.json",
->		"datasetDirectory":"Users/johndoe/Desktop/vines.1410565068",
->		"posTagsFile":"Users/johndoe/Desktop/vines.1410565068/pos_tags.txt",
->		"relationTagsFile":"Users/johndoe/Desktop/vines.1410565068/relation_tags.txt"
->    }
-    
-    - Starts filtering dataset at the first Vine.
-    - Collects 100 filtered Vines.
-    - Requires two Filters be TRUE before accepting a filtered Vine.
-    - Sets the paths to the dataset and its associated `pos_tags.txt` and `relation_tags.txt` files.
+> - Starts filtering dataset at the first Vine.  
+> - Collects 100 filtered Vines.  
+> - Requires two Filters be TRUE before accepting a filtered Vine.  
+> - Sets the paths to the dataset and its associated `pos_tags.txt` and `relation_tags.txt` files.  
     
 
 
