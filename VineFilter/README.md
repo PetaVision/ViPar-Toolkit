@@ -70,7 +70,7 @@ To create the Run Configuration section, simply copy and paste the following JSO
 		"relationTagsFile":"Users/johndoe/Desktop/vines.1410565068/relation_tags.txt"
     }
     
-> - Starts filtering dataset at the first Vine.  
+> - Sets VineFilter to begin filtering dataset at the first Vine.  
 > - Collects 100 filtered Vines.  
 > - Requires two Filters be TRUE before accepting a filtered Vine.  
 > - Sets the paths to the dataset and its associated `pos_tags.txt` and `relation_tags.txt` files.  
