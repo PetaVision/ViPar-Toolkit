@@ -16,9 +16,9 @@ VineFilter comes as both a stand-alone, runnable JAR file and an open-source Jav
 
 ##Setup
 
-This section covers the creation of the VineFilter settings file.  
+This section covers the creation of the VineFilter settings file.  This file is separated into three parts, a **Run Configuration**, **Strings Objects**, and **Filters**.  Read more below to find out how to create each of these sections in order to make a complete settings file.
 
-####Run Configuration
+####1. Run Configuration
 
 The settings file contains 
 
