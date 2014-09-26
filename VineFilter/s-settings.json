@@ -3,7 +3,7 @@
 // ////////////////////
 
 {	"entry":"config",
-	"startAt":1,
+	"startAt":100,
 	"numToCollect":100,
 	"validationQuota":2,
 	"targetWordsFile":"/Users/dannydelott/Desktop/TargetWords/tw-cifar-dog.json",
@@ -84,7 +84,7 @@
 		"relation":"dobj",
 		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
 		"dependent":"([@TargetWord])"},
-	"children":["xcomp","prepc_*","infmod","rcmod"]}
+	"children":["xcomp","infmod","rcmod"]}
 	
 {	"entry":"filter",
 	"name":"prep_with",
@@ -94,7 +94,7 @@
 		"relation":"prep_with",
 		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
 		"dependent":"([@TargetWord])"},
-	"children":["xcomp","prepc_*","infmod","rcmod"]}
+	"children":["xcomp","infmod","rcmod"]}
 	
 {	"entry":"filter",
 	"name":"depAsDobj",
@@ -104,7 +104,7 @@
 		"relation":"dep",
 		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
 		"dependent":"([@TargetWord])"},
-	"children":["xcomp","prepc_*","infmod","rcmod"]}
+	"children":["xcomp","infmod","rcmod"]}
 	
 {	"entry":"filter",
 	"name":"demPronoun",
@@ -147,15 +147,6 @@
 		"relation":"xcomp",
 		"governor":"([@Parent:GOVERNOR])"}}
 		
-{	"entry":"filter",
-	"name":"prepc_*",
-	"type":"void",
-	"description":"Void the parent if the dependent of prepc_*() matches the governor of the parent. (Ex: 'He purchased it without paying a premium.' prepc_without(purchased-2,paying-5))",
-	"isChild":true,
-	"grammarDependency":{
-		"relation":"prepc_*",
-		"dependent":"([@Parent:GOVERNOR])"}}
-
 {	"entry":"filter",
 	"name":"infmod",
 	"type":"void",

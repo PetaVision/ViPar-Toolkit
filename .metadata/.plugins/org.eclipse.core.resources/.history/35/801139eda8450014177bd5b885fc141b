@@ -185,10 +185,6 @@ public class Main {
 
 				totalVinesSearched++;
 
-				if (totalVinesSearched < s.getRunConfiguration().getStartAt()) {
-					continue;
-				}
-
 				// ---------------------
 				// 3. Loops over filters
 				// ---------------------
