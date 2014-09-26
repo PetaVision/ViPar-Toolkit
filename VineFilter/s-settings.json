@@ -1,0 +1,179 @@
+// ////////////////////
+// RUN CONFIGURATION //
+// ////////////////////
+
+{	"entry":"config",
+	"startAt":1,
+	"numToCollect":100,
+	"validationQuota":2,
+	"targetWordsFile":"/Users/dannydelott/Desktop/TargetWords/tw-cifar-dog.json",
+	"datasetDirectory":"/Users/dannydelott/Desktop/vine_english",
+	"posTagsFile":"/Users/dannydelott/Desktop/vine_english/pos_tags.txt",
+	"relationTagsFile":"/Users/dannydelott/Desktop/vine_english/relation_tags.txt"}
+
+// //////////
+// STRINGS //
+// //////////
+
+{	"entry":"s",
+	"name":"BLACKLIST_VBG",
+	"description":"Blacklist of verbs not to use as gerunds.",
+	"assignToPosTag":"VBG",
+	"values":["chase","look","search","seek","request","pursue","follow","track","send","raise","mock","hum","get"]}
+	
+{	"entry":"s",
+	"name":"DEMONSTRATIVE_PRONOUNS",
+	"description":"English demonstrative pronouns used as determiners.",
+	"assignToPosTag":"DT",
+	"values":["this","these","those"]}
+
+// ///////////////
+// VOID FILTERS //
+// ///////////////
+
+{	"entry":"filter",
+	"name":"prep_like",
+	"type":"void",
+	"description":"Void the tweet if the target word exists inside a prepositional phrase using 'like'.  (Ex: 'red like an apple' prep_like(red,apple))",
+	"grammarDependency":{
+		"relation":"prep_like",
+		"dependent":"([@TargetWord])"}}
+
+// ///////////////////
+// VALIDATE FILTERS //
+// ///////////////////
+
+{	"entry":"filter",
+	"name":"hashtag",
+	"type":"validate",
+	"description":"Validate the tweet if the target word exists as a hashtag.",
+	"textContains":"([@Literal:#][@TargetWord:NO_SPACES])"}
+
+{	"entry":"filter",
+	"name":"dep",
+	"type":"validate",
+	"description":"Validate the tweet if the target word is the subject of a gerund verb. (Ex: 'dog chasing his tail' dep(dog,chasing))",
+	"grammarDependency":{
+		"relation":"dep",
+		"governor":"([@TargetWord])",
+		"dependent":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])"}}
+
+{	"entry":"filter",
+	"name":"nsubj",
+	"type":"validate",
+	"description":"Validate the tweet if the target word is the subject of a gerund verb. (Ex: 'dog chasing his tail' nsubj(chasing,dog))",
+	"grammarDependency":{
+		"relation":"nsubj",
+		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
+		"dependent":"([@TargetWord])"}}
+	
+{	"entry":"filter",
+	"name":"partmod",
+	"type":"validate",
+	"description":"Validate the tweet if the target word is the subject of a gerund verb. (Ex: 'dog chasing his tail' partmod(chasing,dog))",
+	"grammarDependency":{
+		"relation":"partmod",
+		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
+		"dependent":"([@TargetWord])"}}
+	
+{	"entry":"filter",
+	"name":"dobj",
+	"type":"validate",
+	"description":"Validate the tweet if the target word is the direct object of a gerund verb. (Ex: 'eating an orange' dobj(eating,orange))",
+	"grammarDependency":{
+		"relation":"dobj",
+		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
+		"dependent":"([@TargetWord])"},
+	"children":["xcomp","prepc_*","infmod","rcmod"]}
+	
+{	"entry":"filter",
+	"name":"prep_with",
+	"type":"validate",
+	"description":"Validate the tweet if the target word exists inside a prepositional phrase using the word 'with'.  (Ex: 'running with the dog')",
+	"grammarDependency":{
+		"relation":"prep_with",
+		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
+		"dependent":"([@TargetWord])"},
+	"children":["xcomp","prepc_*","infmod","rcmod"]}
+	
+{	"entry":"filter",
+	"name":"depAsDobj",
+	"type":"validate",
+	"description":"Validate the tweet if the target word exists as the dependent of a gerund verb inside a generic dep() relation.  (Ex: 'eating an organge' dep(eating,orange))",
+	"grammarDependency":{
+		"relation":"dep",
+		"governor":"([@PosTag:VBG] && ![@Strings:BLACKLIST_VBG])",
+		"dependent":"([@TargetWord])"},
+	"children":["xcomp","prepc_*","infmod","rcmod"]}
+	
+{	"entry":"filter",
+	"name":"demPronoun",
+	"type":"validate",
+	"description":"Validate the tweet if the target word is modified by a demonstrative pronoun. (Ex: 'watching this movie' det(movie,this))",
+	"grammarDependency":{
+		"relation":"det",
+		"governor":"([@TargetWord])",
+		"dependent":"([@Strings:DEMONSTRATIVE_PRONOUNS])"}}
+	
+{	"entry":"filter",
+	"name":"amod",
+	"type":"validate",
+	"description":"Validate the tweet if the target word is modified by an adjective. (Ex: 'the red bike' amod(bike,red))",
+	"enabled":false,
+	"grammarDependency":{
+		"relation":"amod",
+		"governor":"([@TargetWord])",
+		"dependent":"([@Literal:magic])"}}
+
+{	"entry":"filter",
+	"name":"nn",
+	"type":"validate",
+	"description":"Validate the tweet if the target word is modfied by another noun. (Ex: 'oil prices' nn(prices,oil))",
+	"enabled":false,
+	"grammarDependency":{
+		"relation":"nn",
+		"governor":"([@TargetWord])"}}
+
+// ////////////////////////
+// CHILDREN RULES (VOID) //
+// ////////////////////////
+
+{	"entry":"filter",
+	"name":"xcomp",
+	"type":"void",
+	"description":"Void the parent if the governor of xcomp() matches the governor of the parent.(Ex: 'Fixing tea to warm my hands' xcomp(Fixing,warm) dobj(Fixing,tea)')",
+	"isChild":true,
+	"grammarDependency":{
+		"relation":"xcomp",
+		"governor":"([@Parent:GOVERNOR])"}}
+		
+{	"entry":"filter",
+	"name":"prepc_*",
+	"type":"void",
+	"description":"Void the parent if the dependent of prepc_*() matches the governor of the parent. (Ex: 'He purchased it without paying a premium.' prepc_without(purchased-2,paying-5))",
+	"isChild":true,
+	"grammarDependency":{
+		"relation":"prepc_*",
+		"dependent":"([@Parent:GOVERNOR])"}}
+
+{	"entry":"filter",
+	"name":"infmod",
+	"type":"void",
+	"description":"Void the parent if the governor of infmod() is the dependent of the parent. (Ex: 'Wishing my cat to get better' infmod(cat,get))",
+	"isChild":true,
+	"grammarDependency":{
+		"relation":"infmod",
+		"governor":"([@Parent:DEPENDENT])"}}
+		
+{	"entry":"filter",
+	"name":"rcmod",
+	"type":"void",
+	"description":"Void the parent if the governor of rcmod() is the dependent of the parent. (Ex: 'Mocking bird that mocks car alarms ALLL day' rcmod(bird,mocks))",
+	"isChild":true,
+	"grammarDependency":{
+		"relation":"rcmod",
+		"governor":"([@Parent:DEPENDENT])"}}
+	
+// //////////////////////////////
+// CHILDREN FILTERS (VALIDATE) //
+// //////////////////////////////

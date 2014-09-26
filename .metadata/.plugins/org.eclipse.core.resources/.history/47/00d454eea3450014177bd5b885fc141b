@@ -1,0 +1,257 @@
+package dannydelott.vinefilter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.eclipsesource.json.JsonObject;
+
+import dannydelott.vinefilter.settings.SettingsFile;
+import dannydelott.vinefilter.settings.Timer;
+import dannydelott.vinefilter.settings.config.dataset.Vine;
+import dannydelott.vinefilter.settings.filter.Filter;
+import dannydelott.vinefilter.settings.filter.expression.values.FilterType;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		// ----------------------
+		// 0.
+		// GETS RUNTIME ARGUMENTS
+		// ----------------------
+
+		String settingsFilePath = null;
+		boolean doSingleParse = false;
+
+		if (args.length == 0) {
+			System.out.println(Messages.Main_errorMissingSettingsFile);
+			System.exit(0);
+		} else if (args.length == 1) {
+			settingsFilePath = args[0];
+		} else if (args.length == 2) {
+			settingsFilePath = args[0];
+			if (args[1].toLowerCase().contentEquals("true")) {
+
+			}
+		}
+		// ----------------------
+		// 1.
+		// CASTS METHOD VARIABLES
+		// ----------------------
+
+		Timer timer = new Timer();
+		timer.begin();
+
+		// holds the file path of the current dataset file
+		String fileIndex;
+		String filePath;
+		String tabs;
+
+		// holds the current vine to evaluate
+		Vine tempVine;
+
+		// holds the total results across the entire dataset
+		List<Vine> results = new ArrayList<Vine>();
+
+		// holds the number of filters currently obeyed by the vine
+		int validationQuantity = 0;
+
+		// Builds SettingsFile object from filepath to settings file.
+		System.out.println();
+		SettingsFile s = SettingsFile.newInstance(settingsFilePath);
+		if (s == null) {
+			return;
+		}
+
+		s.printSettings();
+
+		// ///////////////
+		// SINGLE PARSE //
+		// ///////////////
+
+		boolean doSingleParse = false;
+
+		if (doSingleParse) {
+			String v = "{\"id\":\"333952204614533120\",\"url\":\"http://vine.co/v/b0PQVd6lOPO\",\"text\":\"Bmac riding this magic dog we found\",\"scrubbed_text\":\"Bmac riding this magic dog we found\",\"pos_tags\":[\"NNP-Bmac\",\"VBG-riding\",\"DT-this\",\"JJ-magic\",\"NN-dog\",\"PRP-we\",\"VBD-found\"],\"grammar_dependencies\":[\"root(ROOT-0,Bmac-1)\",\"dep(Bmac-1,riding-2)\",\"det(dog-5,this-3)\",\"amod(dog-5,magic-4)\",\"dobj(riding-2,dog-5)\",\"dobj(found-7,dog-5)\",\"nsubj(found-7,we-6)\",\"rcmod(dog-5,found-7)\"],\"good_filters\":[\"dobj\",\"demPronoun\"],\"download_url\":\"https://v.cdn.vine.co/r/videos/B4AE196E-4CB8-41CF-8AF4-2E3CE3669331-97616-0000191DCB911AC2_1.1.mp4\",\"containsTargetWord\":false}";
+			JsonObject json = JsonObject.readFrom(v);
+			tempVine = Vine.newInstance(json);
+
+			validationQuantity = 0;
+
+			for (Filter filter : s.getFilters().values()) {
+
+				// isolates filter in question
+				if (!filter.getName().equals("amod")) {
+					continue;
+				}
+
+				if (filter.isEnabled()) {
+
+					System.out.println("\nFILTER NAME:\t" + filter.getName());
+
+					boolean eval = filter.evaluateVine(tempVine);
+
+					System.out.println("EVALUATION:\t" + eval);
+
+					// evaluates vine against the current filter
+					if (eval && filter.getFilterType() == FilterType.VALIDATE) {
+
+						// adds filter to goodFilters
+						tempVine.addGoodFilter(filter.getName());
+
+						// increases the validation quantity
+						validationQuantity++;
+					}
+				}
+			}
+
+			// exports vine when filter validation quota is met
+			if (validationQuantity >= s.getRunConfiguration()
+					.getValidationQuota()) {
+
+				results.add(tempVine);
+
+				ExportFile.appendVineToFile(tempVine, "filter-result.json");
+			}
+
+			System.out.println("\n" + tempVine.getText());
+			System.out.println(tempVine.getGoodFilters().toString());
+			System.exit(0);
+		}
+
+		// ///////////////////
+		// END SINGLE PARSE //
+		// ///////////////////
+
+		// -----------------
+		// 2.
+		// PROCESSES DATASET
+		// -----------------
+
+		// Loops over dataset files and evaluates the vines inside.
+		//
+		// Using the for-loop below, iterate over the contents of the
+		// Dataset's file list and evaluate the vines in each file.
+		// Once a file has been processed, the vines that were accepted
+		// based on the RunConfiguration's rules are added to
+		// List<Vine> totalVineResults.
+
+		// ---------------------------
+		// 1. Loops over dataset files
+		// ---------------------------
+		boolean finished = false;
+		long totalVinesSearched = 0;
+		System.out.println(Messages.Main_beginParsing);
+
+		for (int i = 0; i < s.getRunConfiguration().getDataset()
+				.getDatasetFilesList().size(); i++) {
+
+			// gets the current file index number
+			fileIndex = "["
+					+ (i + 1)
+					+ "] of ["
+					+ s.getRunConfiguration().getDataset()
+							.getDatasetFilesList().size() + "]    ";
+
+			// gets current dataset filepath as string
+			filePath = s.getRunConfiguration().getDataset()
+					.getDatasetFilesList().get(i);
+
+			// gets the tabs the line will need when printing progress
+			tabs = getTabsFromFilePath(fileIndex + filePath);
+
+			System.out.print(fileIndex + filePath + tabs + "[0]");
+
+			// sets current dataset file in Dataset
+			s.getRunConfiguration().getDataset()
+					.setCurrentDatasetFile(filePath);
+
+			int j = 0;
+
+			// ---------------------------
+			// 2. Loops over vines in file
+			// ---------------------------
+
+			while ((tempVine = s.getRunConfiguration().getDataset()
+					.getCurrentDatasetFile().nextVine()) != null) {
+
+				totalVinesSearched++;
+
+				// ---------------------
+				// 3. Loops over filters
+				// ---------------------
+
+				validationQuantity = 0;
+
+				for (Filter filter : s.getFilters().values()) {
+
+					if (filter.isEnabled()) {
+
+						// evaluates vine against the current filter
+						if (filter.evaluateVine(tempVine)
+								&& filter.getFilterType() == FilterType.VALIDATE) {
+
+							// adds filter to goodFilters
+							tempVine.addGoodFilter(filter.getName());
+
+							// increases the validation quantity
+							validationQuantity++;
+						}
+					}
+				}
+
+				// exports vine when filter validation quota is met
+				if (validationQuantity >= s.getRunConfiguration()
+						.getValidationQuota()) {
+
+					results.add(tempVine);
+
+					ExportFile.appendVineToFile(tempVine, "filter-result.json");
+				}
+
+				// updates when vine is processed
+				j++;
+				System.out.print("\r" + fileIndex + filePath + tabs + "[" + j
+						+ "]");
+
+				if (results.size() == s.getRunConfiguration().getNumToCollect()) {
+					finished = true;
+					break;
+				}
+			}
+
+			// closes file streams in current dataset file
+			s.getRunConfiguration().getDataset().getCurrentDatasetFile()
+					.closeDatasetFileStream();
+
+			// prints new line before going to next dataset file
+			System.out.println();
+
+			if (finished) {
+
+				JsonObject datasetResult = new JsonObject();
+				datasetResult.add("num_searched", totalVinesSearched);
+				datasetResult.add("num_collected", results.size());
+
+				ExportFile.printJsonObjectToFile(datasetResult,
+						"vipar-run.json");
+
+				break;
+			}
+
+		}
+
+		System.out.println("Results: " + results.size());
+		timer.end();
+		timer.printFormattedExecutionTime();
+	}
+
+	private static String getTabsFromFilePath(String filePath) {
+		int length = filePath.length();
+		if ((length % 4 == 0) && length <= 68) {
+			return "\t\t\t";
+		}
+		return "\t\t";
+	}
+
+}

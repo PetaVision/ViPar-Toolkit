@@ -23,10 +23,6 @@ public class GrammarDependency {
 	// holds the grammar relation (eg: dobj)
 	private String relation;
 
-	// holds whether or not the grammar relation is specific or broad.
-	// (eg: prep_like v.s. prep_*)
-	private RelationType relationType;
-
 	// holds the filter for the governor
 	private String governor = null;
 
@@ -88,17 +84,6 @@ public class GrammarDependency {
 
 			// sets relation
 			relation = temp.asString();
-
-			// sets relation type
-			if (relation.endsWith("_*")) {
-
-				// remove suffix
-				relation = relation.replace("_*", "");
-
-				relationType = RelationType.BROAD;
-			} else {
-				relationType = RelationType.SPECIFIC;
-			}
 
 			// verifies the relation exists
 			if (!verifyRelationTag()) {
@@ -167,25 +152,9 @@ public class GrammarDependency {
 	 */
 	private boolean verifyRelationTag() {
 
-		switch (relationType) {
-
-		case SPECIFIC:
-			if (settings.getRunConfiguration()
-					.getRelationTags(RelationType.SPECIFIC).contains(relation)) {
-				return true;
-			} else {
-				return false;
-			}
-
-		case BROAD:
-			if (settings.getRunConfiguration()
-					.getRelationTags(RelationType.BROAD).contains(relation)) {
-				return true;
-			} else {
-				return false;
-			}
-
-		default:
+		if (settings.getRunConfiguration().getRelationTags().contains(relation)) {
+			return true;
+		} else {
 			return false;
 		}
 
@@ -223,10 +192,6 @@ public class GrammarDependency {
 
 	public String getRelation() {
 		return relation;
-	}
-
-	public RelationType getRelationType() {
-		return relationType;
 	}
 
 	public String getGovernor() {

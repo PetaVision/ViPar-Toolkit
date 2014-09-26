@@ -2,12 +2,12 @@ package dannydelott.vinefilter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.eclipsesource.json.JsonObject;
 
 import dannydelott.vinefilter.settings.SettingsFile;
 import dannydelott.vinefilter.settings.Timer;
-import dannydelott.vinefilter.settings.config.RunConfiguration;
 import dannydelott.vinefilter.settings.config.dataset.Vine;
 import dannydelott.vinefilter.settings.filter.Filter;
 import dannydelott.vinefilter.settings.filter.expression.values.FilterType;
@@ -18,6 +18,25 @@ public class Main {
 
 		// ----------------------
 		// 0.
+		// GETS RUNTIME ARGUMENTS
+		// ----------------------
+
+		String settingsFilePath = null;
+		boolean doSingleParse = false;
+
+		if (args.length == 0) {
+			System.out.println(Messages.Main_errorMissingSettingsFile);
+			System.exit(0);
+		} else if (args.length == 1) {
+			settingsFilePath = args[0];
+		} else if (args.length == 2) {
+			settingsFilePath = args[0];
+			if (args[1].toLowerCase().contentEquals("true")) {
+				doSingleParse = true;
+			}
+		}
+		// ----------------------
+		// 1.
 		// CASTS METHOD VARIABLES
 		// ----------------------
 
@@ -40,7 +59,7 @@ public class Main {
 
 		// Builds SettingsFile object from filepath to settings file.
 		System.out.println();
-		SettingsFile s = SettingsFile.newInstance("s-settings.json");
+		SettingsFile s = SettingsFile.newInstance(settingsFilePath);
 		if (s == null) {
 			return;
 		}
@@ -51,10 +70,17 @@ public class Main {
 		// SINGLE PARSE //
 		// ///////////////
 
-		boolean doSingleParse = true;
-
 		if (doSingleParse) {
-			String v = "{\"id\":\"333952204614533120\",\"url\":\"http://vine.co/v/b0PQVd6lOPO\",\"text\":\"Bmac riding this magic dog we found\",\"scrubbed_text\":\"Bmac riding this magic dog we found\",\"pos_tags\":[\"NNP-Bmac\",\"VBG-riding\",\"DT-this\",\"JJ-magic\",\"NN-dog\",\"PRP-we\",\"VBD-found\"],\"grammar_dependencies\":[\"root(ROOT-0,Bmac-1)\",\"dep(Bmac-1,riding-2)\",\"det(dog-5,this-3)\",\"amod(dog-5,magic-4)\",\"dobj(riding-2,dog-5)\",\"dobj(found-7,dog-5)\",\"nsubj(found-7,we-6)\",\"rcmod(dog-5,found-7)\"],\"good_filters\":[\"dobj\",\"demPronoun\"],\"download_url\":\"https://v.cdn.vine.co/r/videos/B4AE196E-4CB8-41CF-8AF4-2E3CE3669331-97616-0000191DCB911AC2_1.1.mp4\",\"containsTargetWord\":false}";
+
+			// gets the vine object and the filter to isolate from user input
+			String v = getSingleParseVineInput();
+			String f = getSingleParseFilterInput();
+			boolean doIsolate = false;
+			if (!f.contentEquals("")) {
+				doIsolate = true;
+			}
+
+			// makes json object and Vine object from user input
 			JsonObject json = JsonObject.readFrom(v);
 			tempVine = Vine.newInstance(json);
 
@@ -63,7 +89,7 @@ public class Main {
 			for (Filter filter : s.getFilters().values()) {
 
 				// isolates filter in question
-				if (!filter.getName().equals("amod")) {
+				if (doIsolate && !filter.getName().equals(f)) {
 					continue;
 				}
 
@@ -93,11 +119,11 @@ public class Main {
 
 				results.add(tempVine);
 
-				ExportFile.appendVineToFile(tempVine, "vipar-result.json");
+				ExportFile.appendVineToFile(tempVine, "filter-result.json");
 			}
 
-			System.out.println("\n" + tempVine.getText());
-			System.out.println(tempVine.getGoodFilters().toString());
+			System.out.println("\nGOOD FILTERS:\t"
+					+ tempVine.getGoodFilters().toString());
 			System.exit(0);
 		}
 
@@ -106,7 +132,7 @@ public class Main {
 		// ///////////////////
 
 		// -----------------
-		// 1.
+		// 2.
 		// PROCESSES DATASET
 		// -----------------
 
@@ -188,7 +214,7 @@ public class Main {
 
 					results.add(tempVine);
 
-					ExportFile.appendVineToFile(tempVine, "vipar-result.json");
+					ExportFile.appendVineToFile(tempVine, "filter-result.json");
 				}
 
 				// updates when vine is processed
@@ -226,6 +252,44 @@ public class Main {
 		System.out.println("Results: " + results.size());
 		timer.end();
 		timer.printFormattedExecutionTime();
+	}
+
+	private static String getSingleParseVineInput() {
+
+		String input;
+		Scanner scan = new Scanner(System.in);
+		while (true) {
+
+			System.out
+					.print("\nPROMPT:\t\tPaste in the raw vine JSON object: ");
+
+			if (scan.hasNextLine()) {
+				input = scan.nextLine();
+				if (!input.toLowerCase().equals("")) {
+					return input;
+				}
+			} else {
+				scan.next();
+			}
+		}
+
+	}
+
+	private static String getSingleParseFilterInput() {
+
+		String input;
+		Scanner scan = new Scanner(System.in);
+		while (true) {
+
+			System.out
+					.print("\nPROMPT:\t\tType the name of the filter to isolate or type 'ALL' to apply all filters: ");
+
+			if (scan.hasNextLine()) {
+				input = scan.nextLine();
+				return input;
+			}
+		}
+
 	}
 
 	private static String getTabsFromFilePath(String filePath) {

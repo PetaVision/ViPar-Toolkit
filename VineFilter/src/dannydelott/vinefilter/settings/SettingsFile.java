@@ -272,8 +272,6 @@ public class SettingsFile {
 		System.out.println(Messages.SettingsFile_filePath + filePath);
 		System.out.println(Messages.SettingsFile_startAt
 				+ runConfiguration.getStartAt());
-		System.out.println(Messages.SettingsFile_keepSimpleSearch
-				+ runConfiguration.keepSimpleSearch());
 		System.out.println(Messages.SettingsFile_numToCollect
 				+ runConfiguration.getNumToCollect());
 		System.out.println(Messages.SettingsFile_validationQuota

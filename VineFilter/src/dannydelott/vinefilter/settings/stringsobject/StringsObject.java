@@ -25,7 +25,6 @@ public class StringsObject {
 	private String name;
 	private String description;
 	private String assignToPosTag;
-	private boolean lemmatize;
 	private List<String> values;
 
 	// holds error flags
@@ -179,22 +178,6 @@ public class StringsObject {
 			return;
 		}
 
-		// --------------------
-		// LEMMATIZE - OPTIONAL
-		// --------------------
-
-		temp = jsonObject.get("lemmatize");
-		if (temp != null && temp.isBoolean()) {
-			lemmatize = temp.asBoolean();
-		} else if (temp != null && !temp.isBoolean()) {
-			System.out.println(Messages.StringsObject_errorLemmatize);
-			flagStringsObject = true;
-			return;
-		} else {
-			// default
-			lemmatize = false;
-		}
-
 		// ------
 		// VALUES
 		// ------
@@ -209,7 +192,7 @@ public class StringsObject {
 
 			// turns JsonArray into List<String>
 			values = Setup.convertJsonArrayToStringList(temp.asArray());
-			if (values == null) {	// empty array
+			if (values == null) { // empty array
 				System.out.println("failed");
 				System.out.println(Messages.StringsObject_errorValues);
 				flagStringsObject = true;
@@ -248,9 +231,6 @@ public class StringsObject {
 		return assignToPosTag;
 	}
 
-	public boolean getLemmatize() {
-		return lemmatize;
-	}
 
 	public List<String> getValues() {
 		return values;

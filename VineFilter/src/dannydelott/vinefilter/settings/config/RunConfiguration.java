@@ -2,9 +2,7 @@ package dannydelott.vinefilter.settings.config;
 
 import dannydelott.vinefilter.Messages;
 import dannydelott.vinefilter.settings.config.dataset.Dataset;
-import dannydelott.vinefilter.settings.filter.RelationType;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -26,7 +24,6 @@ public class RunConfiguration {
 
 	// run configuration
 	private int startAt;
-	private boolean keepSimpleSearch = false;
 	private int numToCollect;
 	private int validationQuota;
 	private String targetWordsFilePath;
@@ -39,7 +36,6 @@ public class RunConfiguration {
 	private String posTagsFilePath;
 
 	private HashSet<String> relationTags;
-	private HashSet<String> relationTagsBroad;
 	private boolean hasRelationTagsFile;
 	private String relationTagsFilePath;
 
@@ -199,10 +195,6 @@ public class RunConfiguration {
 		return startAt;
 	}
 
-	public boolean keepSimpleSearch() {
-		return keepSimpleSearch;
-	}
-
 	public int getNumToCollect() {
 		return numToCollect;
 	}
@@ -231,17 +223,8 @@ public class RunConfiguration {
 		return posTags;
 	}
 
-	public HashSet<String> getRelationTags(RelationType r) {
-
-		switch (r) {
-		case BROAD:
-			return relationTagsBroad;
-		case SPECIFIC:
-			return relationTags;
-		default:
-			return null;
-		}
-
+	public HashSet<String> getRelationTags() {
+		return relationTags;
 	}
 
 	// /////////////////
@@ -296,25 +279,6 @@ public class RunConfiguration {
 		}
 		if (startAt < 1) {
 			System.out.println(Messages.RunConfig_errorStartAt);
-			flagRunConfiguration = true;
-			return;
-		}
-
-		// "keepSimpleSearch"
-		// strict keyword search for category string,
-		// used to compare to ViPar filter search.
-		// Currently not operational.
-		temp = jsonObject.get("keepSimpleSearch");
-		if (temp == null) {
-			System.out.println("failed");
-			System.out.println(Messages.RunConfig_errorKeepSimpleSearch);
-			flagRunConfiguration = true;
-			return;
-		} else if (temp.isBoolean()) {
-			keepSimpleSearch = temp.asBoolean();
-		} else {
-			System.out.println("failed");
-			System.out.println(Messages.RunConfig_errorKeepSimpleSearch);
 			flagRunConfiguration = true;
 			return;
 		}
@@ -531,10 +495,8 @@ public class RunConfiguration {
 
 			// initializes set
 			relationTags = new HashSet<String>();
-			relationTagsBroad = new HashSet<String>();
 
 			// opens file stream
-			BufferedReader br;
 			File file = new File(relationTagsFilePath);
 			String line;
 
@@ -547,10 +509,6 @@ public class RunConfiguration {
 
 					// specific
 					relationTags.add(line.toLowerCase());
-
-					// broad
-					s = line.split("_");
-					relationTagsBroad.add(s[0].toLowerCase());
 				}
 
 			} catch (IOException e) {

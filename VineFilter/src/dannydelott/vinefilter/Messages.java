@@ -5,7 +5,7 @@ public final class Messages {
 	// ////////////
 	// Main.java //
 	// ////////////
-
+	public static final String Main_errorMissingSettingsFile = "\nERROR: No settings file given at runtime.";
 	public static final String Main_errorBadPosTags = "\nERROR: Could not load the part-of-speech tags file.";
 	public static final String Main_errorBadRelationTags = "\nERROR: Could not load the grammar relation tags file.";
 	public static final String Main_errorBadDatasetFile = "\nERROR: Could not parse dataset file.";
