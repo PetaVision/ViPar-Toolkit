@@ -8,7 +8,7 @@ The real power of the ViPar toolkit is demonstrated in this tool.
 
 VineFilter is a Java program that uses Vine meta-data obtained via [VineScrape](https://github.com/DannyDelott/ViPar-Toolkit/tree/master/VineScrape) to select specific videos based on any number of user-specified criteria.  
 
-VineFilter uses a settings file that contains all of these user-specified criteria to return datasets of vine videos.  The settings file is separated into 3 unique sections that each have their own parameters. (See [Settings File](#settingsfile))
+VineFilter uses a settings file that contains all of these user-specified criteria to return datasets of vine videos.  The settings file is separated into 3 unique sections that each have their own parameters. (See [Settings File](#settings file))
 
 ##Download
 
