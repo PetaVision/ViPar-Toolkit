@@ -55,9 +55,9 @@ To create the Run Configuration section, simply copy and paste the following JSO
 | *datasetDirectory* | FILEPATH_TO_VINE_DIRECTORY| **MANDATORY** - The location of the directory containing the Vine meta-data.|
 | *posTagsFile* | FILEPATH_TO_POS_TAGS| **MANDATORY** - The location of the `pos_tags.txt` file associated with the Vine meta-data.|
 | *relationTagsFile* | FILEPATH_TO_RELATION_TAGS| **MANDATORY** - The location of the `relation_tags.txt` associated with the Vine meta-data.|
-
-
-
+  
+  
+  
 **Example:**
 
     // ////////////////////
@@ -121,11 +121,9 @@ To create a Strings Object, simply copy and paste the following JSON object into
 		"values":["this", "that", "these", "those"]
     }
     
-> - Sets VineFilter to begin filtering dataset at the first Vine.  
-> - Collects 100 filtered Vines.  
-> - Requires two Filters be TRUE before accepting a filtered Vine.  
-> - Sets the paths to the dataset and its associated `pos_tags.txt` and `relation_tags.txt` files.  
-    
+> - Creates a Strings Object named "DEMONSTRATIVE_PRONOUNS".
+> - Includes a description for user purposes.
+> - Sets a JSON array with the intended String values.
 
 ---
 
