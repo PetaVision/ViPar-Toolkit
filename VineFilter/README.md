@@ -16,19 +16,29 @@ VineFilter comes as both a stand-alone, runnable JAR file and an open-source Jav
 
 ##Setup
 
-This section covers the creation of the VineFilter settings file.  This file is separated into three parts, a **Run Configuration**, **Strings Objects**, and **Filters**.  Read more below to find out how to create each of these sections in order to make a complete settings file.
+This section covers the creation of the VineFilter settings file.  This file is separated into three parts, a **Run Configuration**, **Strings Objects**, and **Filters**. In order for VineFilter to successfully read in your settings file, please be sure your settings file conforms to the syntax described in the sections below.
+
+---
 
 ####1. Run Configuration
 
-The settings file contains 
+**MANDATORY** - The **Run Configuration** is the first element in the settings file. It specifies the location to the Vine meta-data along with other necessary information about the VineFilter run you are going to launch.
 
-**twitter_credentials.json**
+**settings.json**
 
-    {   "consumer_key":"*************************",
-        "consumer_secret":"**************************************************",
-        "access_token":"**************************************************",
-        "access_secret":"*********************************************" 
-    }
+    // ////////////////////
+    // RUN CONFIGURATION //
+    // ////////////////////
+    
+    {	"entry":"config",
+     "startAt":100,
+	    "numToCollect":100,
+	    "validationQuota":2,
+	    "targetWordsFile":"/Users/dannydelott/Desktop/TargetWords/tw-cifar-dog.json",
+	    "datasetDirectory":"/Users/dannydelott/Desktop/vine_english",
+	    "posTagsFile":"/Users/dannydelott/Desktop/vine_english/pos_tags.txt",
+	    "relationTagsFile":"/Users/dannydelott/Desktop/vine_english/relation_tags.txt"
+	    }
 
 ##Usage
 
