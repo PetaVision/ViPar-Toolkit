@@ -162,7 +162,3 @@
 	"grammarDependency":{
 		"relation":"rcmod",
 		"governor":"([@Parent:DEPENDENT])"}}
-	
-// //////////////////////////////
-// CHILDREN FILTERS (VALIDATE) //
-// //////////////////////////////
