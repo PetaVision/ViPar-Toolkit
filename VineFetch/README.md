@@ -11,7 +11,7 @@ Finally, the meta-data of the successfully downloaded videos are stored in a gen
 
 ##Download
 
-VineFetch comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
+VineFetch comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the `fetch.jar` file and run it. See [Usage](#usage).
 
 ##Usage
 
