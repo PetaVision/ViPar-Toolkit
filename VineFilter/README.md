@@ -8,13 +8,13 @@ The real power of the ViPar toolkit is demonstrated in this tool.
 
 VineFilter is a Java program that uses Vine meta-data obtained via [VineScrape](https://github.com/DannyDelott/ViPar-Toolkit/tree/master/VineScrape) to select specific videos based on any number of user-specified criteria.  
 
-VineFilter uses a settings file that contains all of these user-specified criteria to return datasets of vine videos.  The settings file is separated into 3 unique sections that each have their own parameters. (See [Settings File](#settings-file))
+VineFilter uses a settings file that contains all of these user-specified criteria to return datasets of vine videos.  The settings file is separated into 3 unique sections that each have their own parameters. (See [Making the Settings File](#making-the-settings-file))
 
 ##Download
 
 VineFilter comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the `filter.jar` file and run it. See [Usage](#usage).
 
-##Settings File
+##Making the Settings File
 
 You must create a Twitter application to begin accessing the APIs. Visit [dev.twitter.com/apps](https://apps.twitter.com/) and log in with your Twitter account to create a new app. You will then be given your API keys.
 
