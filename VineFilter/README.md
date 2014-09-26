@@ -12,13 +12,9 @@ VineFilter uses a settings file that contains all of these user-specified criter
 
 ##Download
 
-VineScrape comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the file below and run it. See [Usage](#usage).
+VineFilter comes as both a stand-alone, runnable JAR file and an open-source Java project available here in this repository. Users who only wish to use the program as-is should simply download the `filter.jar` file and run it. See [Usage](#usage).
 
-#####[vinescrape.jar](https://drive.google.com/file/d/0B2ZkhS0DTgoleFFvazZ2dFh5eFE/edit?usp=sharing) **(Click to download)**
-
-*Due to the filesizes of the Stanford CoreNLP libary and the CMU Twitter Part-of-Speech Tagger the stand-alone, runnable JAR file is too large (~123MB) to host on Github.*
-
-##New Users
+##Settings File
 
 You must create a Twitter application to begin accessing the APIs. Visit [dev.twitter.com/apps](https://apps.twitter.com/) and log in with your Twitter account to create a new app. You will then be given your API keys.
 
