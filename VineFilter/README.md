@@ -16,7 +16,7 @@ VineFilter comes as both a stand-alone, runnable JAR file and an open-source Jav
 
 ##Setup
 
-###Creating the Settings File
+####Creating the Settings File
 
 You must create a Twitter application to begin accessing the APIs. Visit [dev.twitter.com/apps](https://apps.twitter.com/) and log in with your Twitter account to create a new app. You will then be given your API keys.
 
