@@ -132,7 +132,7 @@ To create a Strings Object, simply copy and paste the following JSON object into
 
 **MANDATORY** - The **Filters** section of the settings file is where users will create the specific parameters by which Vines will be accepted or trashed.  These parameters can be based off of the text description as-is or the grammatical structure of the text description given in the linguistic meta-data.
 
-To create a Filter, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.
+To create a Filter, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.  
 
 **Syntax:**
 
@@ -166,17 +166,37 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 | *governor* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's governor value.|
 | *dependent* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's dependent value.|
 
+The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-statement.  An explanation of each filter expression token is given in the table below.
 
-**Example:**
+**Syntax:**
+
+    [@<TOKEN>:<VALUE>]
+
+**Filter Expression:**
+
+| Token | Values | Description |
+|---|---|---|
+| *TargetWord* | none or "NO_SPACES" | Represents any target word from the run configuration's target words file.  Use "NO_SPACES" to represent the target words as 1-grams, eg: for use in hashtags.|
+| *Literal* | String literal| Represents the exact string literal specified after the ":".|
+| *Strings* | <NAME_OF_STRINGS_OBJECT>| Represents the string values specified in the Strings Object.|
+| *PosTag* | <POS_TAG> | Represents the required part-of-speech tag. For use in `grammarDependency` only.|
+| *Parent* | "GOVERNOR" or "DEPENDENT" | Represents the entire filter expression inside the parent Filter's `governor` or `dependent` field.|
+
+
+**Examples:**
 
     // //////////
-    // STRINGS //
+    // FILTERS //
     // //////////
     
-    {	"entry":"s",
-		"name":"DEMONSTRATIVE_PRONOUNS",
-		"description":"English demonstrative pronouns used as determiners.",
-		"values":["this", "that", "these", "those"]
+    {	"entry":"filter",
+		"name":"prep_like",
+		"type":"void",
+		"description":"Void the tweet if the target word exists inside a prepositional phrase using 'like'.  (Ex: 'red like an apple' prep_like(red,apple))",
+		"grammarDependency": {
+			"relation":"prep_like",
+			"dependent":"([@TargetWord])"
+			}
     }
     
 > - Creates a Strings Object named "DEMONSTRATIVE_PRONOUNS".
