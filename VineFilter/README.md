@@ -54,7 +54,23 @@ To create the Run Configuration section, simply copy and paste the following JSO
 | *posTagsFile* | FILEPATH_TO_POS_TAGS| **MANDATORY** - The location of the `pos_tags.txt` file associated with the Vine meta-data.|
 | *relationTagsFile* | FILEPATH_TO_RELATION_TAGS| **MANDATORY** - The location of the `relation_tags.txt` associated with the Vine meta-data.|
 
+Example Run Configuration:
 
+**settings.json**
+
+    // ////////////////////
+    // RUN CONFIGURATION //
+    // ////////////////////
+    
+    {	"entry":"config",
+		"startAt":<NUM_VINE_TO_START_AT>,
+		"numToCollect":<NUM_VINES_TO_COLLECT>,
+		"validationQuota":<NUM_FILTERS_TO_VALIDATE>,
+		"targetWordsFile":"<FILEPATH_TO_TARGET_WORDS>",
+		"datasetDirectory":"<FILEPATH_TO_VINE_DIRECTORY>",
+		"posTagsFile":"<FILEPATH_TO_POS_TAGS>",
+		"relationTagsFile":"<FILEPATH_TO_RELATION_TAGS>"
+    }
 
 
 
