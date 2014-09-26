@@ -24,6 +24,7 @@ public class StringsObject {
 	// / holds the StringsObject values
 	private String name;
 	private String description;
+	private String assignToPosTag;
 	private List<String> values;
 
 	// holds error flags
@@ -144,6 +145,39 @@ public class StringsObject {
 			return;
 		}
 
+		// -----------------
+		// ASSIGN TO POS TAG
+		// -----------------
+
+		temp = jsonObject.get("assignToPosTag");
+		if (temp == null) {
+			System.out.println("failed");
+			System.out.println(Messages.StringsObject_errorAssignToPosTag);
+			flagStringsObject = true;
+			return;
+		} else if (temp.isString()) {
+
+			// checks if pos tag exists in RunConfiguration
+			if (settings.getRunConfiguration().containsPosTag(
+					temp.asString().toLowerCase())) {
+				assignToPosTag = temp.asString().toLowerCase();
+			} else {
+				System.out.println("failed");
+				System.out.println(Messages.StringsObject_errorAssignToPosTag);
+				flagStringsObject = true;
+				return;
+			}
+
+		}
+
+		// when "assignToPosTag" is not a string but not null (eg: boolean)
+		else {
+			System.out.println("failed");
+			System.out.println(Messages.StringsObject_errorAssignToPosTag);
+			flagStringsObject = true;
+			return;
+		}
+
 		// ------
 		// VALUES
 		// ------
@@ -192,6 +226,11 @@ public class StringsObject {
 	public String getDescription() {
 		return description;
 	}
+
+	public String getAssignToPosTag() {
+		return assignToPosTag;
+	}
+
 
 	public List<String> getValues() {
 		return values;

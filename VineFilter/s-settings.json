@@ -18,13 +18,11 @@
 {	"entry":"s",
 	"name":"BLACKLIST_VBG",
 	"description":"Blacklist of verbs not to use as gerunds.",
-	"assignToPosTag":"VBG",
-	"values":["chase","look","search","seek","request","pursue","follow","track","send","raise","mock","hum","get"]}
+	"values":["chasing","looking","searching","seeking","requesting","pursuing","following","tracking","sending","raising","mocking","humming","getting"]}
 	
 {	"entry":"s",
 	"name":"DEMONSTRATIVE_PRONOUNS",
 	"description":"English demonstrative pronouns used as determiners.",
-	"assignToPosTag":"DT",
 	"values":["this","these","those"]}
 
 // ///////////////
