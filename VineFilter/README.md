@@ -54,23 +54,27 @@ To create the Run Configuration section, simply copy and paste the following JSO
 | *posTagsFile* | FILEPATH_TO_POS_TAGS| **MANDATORY** - The location of the `pos_tags.txt` file associated with the Vine meta-data.|
 | *relationTagsFile* | FILEPATH_TO_RELATION_TAGS| **MANDATORY** - The location of the `relation_tags.txt` associated with the Vine meta-data.|
 
-Example Run Configuration:
+**Example**
 
-**settings.json**
-
-    // ////////////////////
-    // RUN CONFIGURATION //
-    // ////////////////////
+>    // ////////////////////
+>    // RUN CONFIGURATION //
+>    // ////////////////////
     
-    {	"entry":"config",
-		"startAt":<NUM_VINE_TO_START_AT>,
-		"numToCollect":<NUM_VINES_TO_COLLECT>,
-		"validationQuota":<NUM_FILTERS_TO_VALIDATE>,
-		"targetWordsFile":"<FILEPATH_TO_TARGET_WORDS>",
-		"datasetDirectory":"<FILEPATH_TO_VINE_DIRECTORY>",
-		"posTagsFile":"<FILEPATH_TO_POS_TAGS>",
-		"relationTagsFile":"<FILEPATH_TO_RELATION_TAGS>"
-    }
+>    {	"entry":"config",
+>		"startAt":1,
+>		"numToCollect":100,
+>		"validationQuota":2,
+>		"targetWordsFile":"Users/johndoe/Desktop/target-words.json",
+>		"datasetDirectory":"Users/johndoe/Desktop/vines.1410565068",
+>		"posTagsFile":"Users/johndoe/Desktop/vines.1410565068/pos_tags.txt",
+>		"relationTagsFile":"Users/johndoe/Desktop/vines.1410565068/relation_tags.txt"
+>    }
+    
+    - Starts filtering dataset at the first Vine.
+    - Collects 100 filtered Vines.
+    - Requires two Filters be TRUE before accepting a filtered Vine.
+    - Sets the paths to the dataset and its associated `pos_tags.txt` and `relation_tags.txt` files.
+    
 
 
 
