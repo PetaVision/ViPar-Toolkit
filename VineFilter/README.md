@@ -29,7 +29,7 @@ To create the Run Configuration section, simply copy and paste the following JSO
 
 
 
-#####Syntax:
+**Syntax:**
 
     // ////////////////////
     // RUN CONFIGURATION //
@@ -126,6 +126,58 @@ To create a Strings Object, simply copy and paste the following JSON object into
 > - Sets a JSON array with the intended String values.
 
 ---
+
+
+####3. Filters
+
+*MANDATORY* - The **Filters** section of the settings file is where users will create the specific parameters by which Vines will be accepted or trashed.  These parameters can be based off of the text description as-is or the grammatical structure of the text description given in the linguistic meta-data.
+
+To create a Filter, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.
+
+**Syntax:**
+
+    // //////////
+    // FILTERS //
+    // //////////
+    
+    {	"entry":"filter",
+		"name":"<NAME_OF_FILTER>",
+		"type":"<FILTER_TYPE>",
+		"description":"<DESCRIPTION>",
+		"textContains":"<FILTER_EXPRESSION>",
+		"scrubbedTextContains":"<FILTER_EXPRESSION>",
+		"grammarDependency": {
+			"relation":"<RELATION_TAG>",
+			"governor":"<FILTER_EXPRESSION>",
+			"dependent":"<FILTER_EXPRESSION>"
+			}
+    }
+    
+| Field | Argument | Description |
+|---|---|---|
+| *entry* | "s" |	**MANDATORY** - Use "s" to specify a Strings Object. |
+| *name* | NAME_OF_STRINGS_OBJECT| **MANDATORY** - The name to use when calling the Strings Object in a Filter expression token.|
+| *description* | DESCRIPTION | **MANDATORY** - A brief description about the Strings Objects values and intended use.|
+| *values* | STRING_LITERAL_*| **MANDATORY** - The String literals to include in this String Object. |
+
+
+
+**Example:**
+
+    // //////////
+    // STRINGS //
+    // //////////
+    
+    {	"entry":"s",
+		"name":"DEMONSTRATIVE_PRONOUNS",
+		"description":"English demonstrative pronouns used as determiners.",
+		"values":["this", "that", "these", "those"]
+    }
+    
+> - Creates a Strings Object named "DEMONSTRATIVE_PRONOUNS".
+> - Includes a description for user purposes.
+> - Sets a JSON array with the intended String values.
+
 
 ##Usage
 
