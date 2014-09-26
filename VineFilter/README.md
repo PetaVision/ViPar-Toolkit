@@ -18,11 +18,16 @@ VineFilter comes as both a stand-alone, runnable JAR file and an open-source Jav
 
 This section covers the creation of the VineFilter settings file.  This file is in JSON format and is separated into three parts-- **Run Configuration**, **Strings Objects**, and **Filters**. In order for VineFilter to successfully read in your settings file, please be sure your settings file conforms to the syntax described in the sections below and that all fields marked **MANDATORY** are present in your settings file objects.
 
+
 ---
 
 ####1. Run Configuration
 
-**MANDATORY** - The **Run Configuration** is the first element in the settings file. It specifies the location to the Vine meta-data along with other necessary information about the VineFilter run you are going to launch.
+**MANDATORY** - The **Run Configuration** is the first element in the settings file. It specifies the location to the Vine meta-data along with other necessary information about the VineFilter run you are going to launch.  
+
+To create the Run Configuration section, simply copy and paste the following JSON object into an empty file (eg: `settings.json`), substituting the arguments for their respective values.
+
+**settings.json**
 
     // ////////////////////
     // RUN CONFIGURATION //
