@@ -24,8 +24,6 @@ This section covers the creation of the VineFilter settings file.  This file is 
 
 **MANDATORY** - The **Run Configuration** is the first element in the settings file. It specifies the location to the Vine meta-data along with other necessary information about the VineFilter run you are going to launch.
 
-**settings.json**
-
     // ////////////////////
     // RUN CONFIGURATION //
     // ////////////////////
@@ -39,6 +37,16 @@ This section covers the creation of the VineFilter settings file.  This file is 
 		"posTagsFile":"<FILEPATH_TO_POS_TAGS>",
 		"relationTagsFile":"<FILEPATH_TO_RELATION_TAGS>"
     }
+    
+| Field | Argument | Description |
+|---|---|---|
+| *entry* | "config" |	**MANDATORY** - Use "config" to specify the run configuration. |
+| *startAt* | NUM_VINE_TO_START_AT| **MANDATORY** - The nth Vine becomes the starting point. (Use 1 to start at the first Vine in the dataset).|
+| *numToCollect* | NUM_VINES_TO_COLLECT| **MANDATORY** - The number of accepted/filtered Vines to collect.|
+| *validationQuota* | NUM_FILTERS_TO_VALIDATE| **MANDATORY** - The number of Filters that must return true in order for a Vine to be accepted.|
+
+
+
 
 ##Usage
 
