@@ -44,7 +44,7 @@ To create the Run Configuration section, simply copy and paste the following JSO
 | Field | Argument | Description |
 |---|---|---|
 | *entry* | "config" |	**MANDATORY** - Use "config" to specify the run configuration. |
-| *startAt* | NUM_VINE_TO_START_AT| **MANDATORY** - The nth Vine becomes the starting point. (Use 1 to start at the first Vine in the dataset).|
+| *startAt* | NUM_VINE_TO_START_AT| **MANDATORY** - The nth Vine becomes the starting point. (Use 1 to start at the first Vine in the dataset.)|
 | *numToCollect* | NUM_VINES_TO_COLLECT| **MANDATORY** - The number of accepted/filtered Vines to collect.|
 | *validationQuota* | NUM_FILTERS_TO_VALIDATE| **MANDATORY** - The number of Filters that must return TRUE in order for a Vine to be accepted.|
 | *targetWordsFile* | FILEPATH_TO_TARGET_WORDS| **MANDATORY** - The location of the target words file.|
@@ -132,6 +132,8 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 		"name":"<NAME_OF_FILTER>",
 		"type":"<FILTER_TYPE>",
 		"description":"<DESCRIPTION>",
+		"enabled":<BOOLEAN>,
+		"isChild":<BOOLEAN>,
 		"textContains":"<FILTER_EXPRESSION>",
 		"scrubbedTextContains":"<FILTER_EXPRESSION>",
 		"grammarDependency": {
@@ -145,8 +147,10 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 |---|---|---|
 | *entry* | "filter" |	**MANDATORY** - Use "filter" to specify a Filter. |
 | *name* | NAME_OF_FILTER| **MANDATORY** - The name to use when calling the Filter.|
-| *type* | FILTER_TYPE| **MANDATORY** - Use "void" or "validate"  to specify Filter type.|
+| *type* | FILTER_TYPE| **MANDATORY** - Specifies the Filter type. Use "void" to trash the Vine if the Filter is accepted. Use "validate" to increment the `validationQuota` if the Filter is accepted.|
 | *description* | DESCRIPTION | **MANDATORY** - A brief description about the Filter values and intended use.|
+| *enabled* | BOOLEAN | *OPTIONAL* - Specifies if the Filter is to be used. (Default set to TRUE.)|
+| *isChild* | BOOLEAN | *OPTIONAL* - Specifies if the Filter is a child of other Filters. (Default set to FALSE.)|
 | *textContains* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the Vine's text description. |
 | *scrubbedTextContains* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the Vine's scrubbed text description.|
 | *grammarDependency* |  | *OPTIONAL* - Sets the filter to evaluate a specific grammar relation. |
@@ -154,15 +158,16 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 | *governor* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's governor value.|
 | *dependent* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's dependent value.|
 
+
+
 The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-statement. An explanation of each of the acceptable tokens for a filter expression is given in the table below.
 
 **Filter Expression Syntax:**
 
     (<TOKEN> <LOGIC_TYPE> <TOKEN>) <LOGIC_TYPE>  (<TOKEN> <LOGIC_TYPE> <TOKEN>)
     
-- **NOTE: Nested parenthesis currently are not supported.
-- <LOGIC_TYPE> "&&" or "||"
- 
+- NOTE: Nested parenthesis currently are not supported. (See [Possible Issues](#possible-issues))
+
 **Token Syntax:**
 
     [@<NAME>:<VALUE>]
@@ -194,7 +199,7 @@ The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-state
 			}
     }
     
-> - Creates a Strings Object named "DEMONSTRATIVE_PRONOUNS".
+> - Creates a .
 > - Includes a description for user purposes.
 > - Sets a JSON array with the intended String values.
 
