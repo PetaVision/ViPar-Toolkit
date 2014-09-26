@@ -2,15 +2,13 @@
 #VineFilter
 Filters Vine video text descriptions by their linguistic meta-data (ie: parts-of-speech and grammar relationships) in order to return videos containing a high-probability of having the user-specified visual object/entity in the video content itself.
 
+The real power of the ViPar toolkit is demonstrated in this tool. 
+
 ##How it Works
 
-VineScrape is a multi-threaded Java program that accesses the [Twitter Streaming API](https://dev.twitter.com/streaming/overview) and collects Status objects that contain unique URLs to Vine videos.
+VineFilter is a Java program that uses Vine meta-data obtained via [VineScrape]() to select specific videos based on any number of user-specified criteria.  
 
-VineScrape then navigates to the URLs and parses out the text description (if any), ID, and full URL to the .mp4 video. The text description is scrubbed of emoticons and other micro-text phenomena and an attempt to segment interior hashtags is made.
-
-Next, VineScrape tags out the scrubbed text description's parts-of-speech using the [CMU Twitter Part-of-Speech Tagger](http://www.ark.cs.cmu.edu/TweetNLP/). The POS tags are then fed into the [Stanford CoreNLP Grammar Dependency Parser](http://nlp.stanford.edu/software/stanford-dependencies.shtml) to tag out the grammar relationships.
-
-Finally, everything is saved to a generated directory in JSON format.
+VineFilter uses a settings file that contains all of these user-specified criteria to return datasets of vine videos.  The settings file has 3 unique sections that each have parameters. 
 
 **Example:**
     
