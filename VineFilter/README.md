@@ -1,6 +1,6 @@
  
 #VineFilter
-Filters Vine video text descriptions by their linguistic meta-data (ie: parts-of-speech and grammar relationships) in order to return videos containing a high-probability of having a the user-specified visual object/entity in the video content itself.
+Filters Vine video text descriptions by their linguistic meta-data (ie: parts-of-speech and grammar relationships) in order to return videos containing a high-probability of having the user-specified visual object/entity in the video content itself.
 
 ##How it Works
 
