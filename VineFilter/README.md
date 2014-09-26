@@ -27,7 +27,9 @@ This section covers the creation of the VineFilter settings file.  This file is 
 
 To create the Run Configuration section, simply copy and paste the following JSON object into an empty file (eg: `settings.json`), substituting the arguments for their respective values.
 
-**settings.json**
+
+
+**Syntax**
 
     // ////////////////////
     // RUN CONFIGURATION //
@@ -54,7 +56,9 @@ To create the Run Configuration section, simply copy and paste the following JSO
 | *posTagsFile* | FILEPATH_TO_POS_TAGS| **MANDATORY** - The location of the `pos_tags.txt` file associated with the Vine meta-data.|
 | *relationTagsFile* | FILEPATH_TO_RELATION_TAGS| **MANDATORY** - The location of the `relation_tags.txt` associated with the Vine meta-data.|
 
-**Example**
+
+
+**Example:**
 
     // ////////////////////
     // RUN CONFIGURATION //
@@ -84,7 +88,7 @@ To create the Run Configuration section, simply copy and paste the following JSO
 
 To create a Strings Object, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.
 
-**settings.json**
+**Syntax:**
 
     // //////////
     // STRINGS //
@@ -103,7 +107,9 @@ To create a Strings Object, simply copy and paste the following JSON object into
 | *description* | DESCRIPTION | **MANDATORY** - A brief description about the Strings Objects values and intended use.|
 | *values* | STRING_LITERAL_*| **MANDATORY** - The String literals to include in this String Object. |
 
-**Example**
+
+
+**Example:**
 
     // //////////
     // STRINGS //
