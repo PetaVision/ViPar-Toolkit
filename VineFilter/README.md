@@ -185,9 +185,9 @@ The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-state
 
 **Examples:**
 
-    // //////////
-    // FILTERS //
-    // //////////
+    // /////////
+    // FILTER //
+    // /////////
     
     {	"entry":"filter",
 		"name":"prep_like",
@@ -203,6 +203,10 @@ The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-state
 > - Sets a filter expression on the Vine object's "prep_like" grammar relation.
 > - Voids the Vine if the Vine's meta-data has a "prep_like" grammar relation containing a target word as the dependent.
 
+    // /////////
+    // FILTER //
+    // /////////
+    
     {	"entry":"filter",
 		"name":"hashtag",
 		"type":"validate",
@@ -213,6 +217,27 @@ The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-state
 > - Creates a validate filter called "hashtag".
 > - Sets a filter expression on the Vine object's text description.
 > - Validates the Vine if the text contains a target word 1-gram with a '#' hashtag in front.
+
+
+    // /////////
+    // FILTER //
+    // /////////
+    
+    {	"entry":"filter",
+		"name":"demPronoun",
+		"type":"validate",
+		"description":"Validate the tweet if the target word is modified by a demonstrative pronoun. (Ex: 'watching this movie' det(movie,this))",
+		"grammarDependency":{
+		"relation":"det",
+		"governor":"([@TargetWord])",
+		"dependent":"([@Strings:DEMONSTRATIVE_PRONOUNS])"}
+}
+    
+> - Creates a validate filter called "hashtag".
+> - Sets a filter expression on the Vine object's text description.
+> - Validates the Vine if the text contains a target word 1-gram with a '#' hashtag in front.
+
+
 
 ##Usage
 
