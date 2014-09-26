@@ -154,15 +154,22 @@ To create a Filter, simply copy and paste the following JSON object into a setti
 | *governor* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's governor value.|
 | *dependent* | FILTER_EXPRESSION | *OPTIONAL* - The expression to evaluate over the relation's dependent value.|
 
-The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-statement.  An explanation of each filter expression token is given in the table below.
+The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-statement. An explanation of each of the acceptable tokens for a filter expression is given in the table below.
 
-**Syntax:**
+**Filter Expression Syntax:**
 
-    [@<TOKEN>:<VALUE>]
+    (<TOKEN> <LOGIC_TYPE> <TOKEN>) <LOGIC_TYPE>  (<TOKEN> <LOGIC_TYPE> <TOKEN>)
+    
+- **NOTE: Nested parenthesis currently are not supported.
+- <LOGIC_TYPE> "&&" or "||"
+ 
+**Token Syntax:**
+
+    [@<NAME>:<VALUE>]
 
 **Filter Expression:**
 
-| Token | Values | Description |
+| Name | Values | Description |
 |---|---|---|
 | *TargetWord* | none or "NO_SPACES" | Represents any target word from the run configuration's target words file.  Use "NO_SPACES" to represent the target words as 1-grams, eg: for use in hashtags.|
 | *Literal* | String literal| Represents the exact string literal specified after the ":".|
