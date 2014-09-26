@@ -31,14 +31,14 @@ This section covers the creation of the VineFilter settings file.  This file is 
     // ////////////////////
     
     {	"entry":"config",
-     "startAt":100,
-	    "numToCollect":100,
-	    "validationQuota":2,
-	    "targetWordsFile":"/Users/dannydelott/Desktop/TargetWords/tw-cifar-dog.json",
-	    "datasetDirectory":"/Users/dannydelott/Desktop/vine_english",
-	    "posTagsFile":"/Users/dannydelott/Desktop/vine_english/pos_tags.txt",
-	    "relationTagsFile":"/Users/dannydelott/Desktop/vine_english/relation_tags.txt"
-	    }
+		"startAt":<NUM_VINE_TO_START_AT>,
+		"numToCollect":<NUM_VINES_TO_COLLECT>,
+		"validationQuota":<NUM_FILTERS_TO_VALIDATE>,
+		"targetWordsFile":"<FILEPATH_TO_TARGET_WORDS>",
+		"datasetDirectory":"<FILEPATH_TO_VINE_DIRECTORY>",
+		"posTagsFile":"<FILEPATH_TO_POS_TAGS>",
+		"relationTagsFile":"<FILEPATH_TO_RELATION_TAGS>"
+    }
 
 ##Usage
 
