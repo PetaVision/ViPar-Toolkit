@@ -1,0 +1,257 @@
+package gov.lanl.vineparser.settings.filter;
+
+import gov.lanl.vineparser.main.Messages;
+import gov.lanl.vineparser.settings.SettingsFile;
+
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
+
+public class GrammarDependency {
+
+	// ///////////////////
+	// GLOBAL VARIABLES //
+	// ///////////////////
+
+	// holds the Filter object that contains this GrammarDependency object
+	private Filter filter;
+
+	// holds the grammar dependency JSON object
+	private JsonObject object;
+
+	private SettingsFile settings;
+
+	// holds the grammar relation (eg: dobj)
+	private String relation;
+
+	// holds whether or not the grammar relation is specific or broad.
+	// (eg: prep_like v.s. prep_*)
+	private RelationType relationType;
+
+	// holds the filter for the governor
+	private String governor = null;
+
+	// holds the filter for the dependent
+	private String dependent = null;
+
+	// holds error flags
+	private boolean flagGrammarDependency;
+
+	// //////////////////////
+	// FACTORY CONSTRUCTOR //
+	// //////////////////////
+
+	public static GrammarDependency newInstance(Filter r, JsonObject j,
+			SettingsFile s) {
+
+		GrammarDependency g = new GrammarDependency(r, j, s);
+		if (g.getFlagGrammarDependency()) {
+			return null;
+		}
+
+		return g;
+
+	}
+
+	// //////////////
+	// CONSTRUCTOR //
+	// //////////////
+
+	private GrammarDependency(Filter r, JsonObject j, SettingsFile s) {
+		filter = r;
+		object = j;
+		settings = s;
+		parseGrammarDependency();
+	}
+
+	// //////////////////
+	// PRIVATE METHODS //
+	// //////////////////
+
+	private void parseGrammarDependency() {
+		JsonValue temp;
+
+		boolean hasOptionalField = false;
+
+		// -----------------------
+		// 1.
+		// PARSES MANDATORY FIELDS
+		// -----------------------
+
+		// "relation"
+		temp = object.get("relation");
+		if (temp == null || !temp.isString()) {
+			System.out.println("failed");
+			System.out.println(Messages.GrammarDependency_errorRelation);
+			flagGrammarDependency = true;
+			return;
+		} else {
+
+			// sets relation
+			relation = temp.asString();
+
+			// sets relation type
+			if (relation.endsWith("_*")) {
+
+				// remove suffix
+				relation = relation.replace("_*", "");
+
+				relationType = RelationType.BROAD;
+			} else {
+				relationType = RelationType.SPECIFIC;
+			}
+
+			// verifies the relation exists
+			if (!verifyRelationTag()) {
+				System.out.println("failed");
+				System.out.println(Messages.GrammarDependency_errorRelation);
+				flagGrammarDependency = true;
+				return;
+			}
+
+		}
+
+		// -------------------------
+		// 3.
+		// PARSES FILTER EXPRESSIONS
+		// -------------------------
+
+		// Parses filter expressions. (Must use at least one)
+		//
+		// The user must specify one or more of the following fields in order to
+		// properly construct a GrammarDependency object. These can be
+		// associated with the governor, dependent, or both.
+
+		// "governor"
+		temp = object.get("governor");
+		if (temp != null) {
+			if (temp.isString()) {
+				hasOptionalField = true;
+				governor = temp.asString();
+			} else {
+				System.out.println("failed");
+				System.out.println(Messages.GrammarDependency_errorGovernor);
+				flagGrammarDependency = true;
+				return;
+			}
+		}
+
+		// "dependent"
+		temp = object.get("dependent");
+		if (temp != null) {
+			if (temp.isString()) {
+				hasOptionalField = true;
+				dependent = temp.asString();
+			} else {
+				System.out.println("failed");
+				System.out.println(Messages.GrammarDependency_errorRelation);
+				flagGrammarDependency = true;
+				return;
+			}
+		}
+
+		if (!hasOptionalField) {
+			System.out.println("failed");
+			System.out
+					.println(Messages.GrammarDependency_errorMissingOptionalField);
+			flagGrammarDependency = true;
+			return;
+		}
+
+	}
+
+	/**
+	 * Returns true if the relation tag String exists in the run configuration
+	 * list of relations.
+	 * 
+	 * @return true if relation tag exists in relations list
+	 */
+	private boolean verifyRelationTag() {
+
+		switch (relationType) {
+
+		case SPECIFIC:
+			if (settings.getRunConfiguration()
+					.getRelationTags(RelationType.SPECIFIC).contains(relation)) {
+				return true;
+			} else {
+				return false;
+			}
+
+		case BROAD:
+			if (settings.getRunConfiguration()
+					.getRelationTags(RelationType.BROAD).contains(relation)) {
+				return true;
+			} else {
+				return false;
+			}
+
+		default:
+			return false;
+		}
+
+	}
+
+	// //////////////////
+	// PUBLIC METHODS //
+	// //////////////////
+
+	public boolean hasDependent() {
+		if (dependent == null) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean hasGovernor() {
+		if (governor == null) {
+			return false;
+		}
+		return true;
+	}
+
+	// /////////////////
+	// GLOBAL GETTERS //
+	// /////////////////
+
+	public boolean getFlagGrammarDependency() {
+		return flagGrammarDependency;
+	}
+
+	public Filter getFilter() {
+		return filter;
+	}
+
+	public String getRelation() {
+		return relation;
+	}
+
+	public RelationType getRelationType() {
+		return relationType;
+	}
+
+	public String getGovernor() {
+		return governor;
+	}
+
+	public String getDependent() {
+		return dependent;
+	}
+
+	public String getGrammarDependencyAsString() {
+		String s = relation + "[" + governor + ", " + dependent + "]";
+		return s;
+	}
+
+	// /////////////////
+	// GLOBAL SETTERS //
+	// /////////////////
+
+	public void setGovernor(String g) {
+		governor = g;
+	}
+
+	public void setDependent(String d) {
+		dependent = d;
+	}
+
+}

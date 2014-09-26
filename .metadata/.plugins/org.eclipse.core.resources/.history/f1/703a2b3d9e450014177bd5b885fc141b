@@ -1,0 +1,5 @@
+package gov.lanl.vineparser.settings;
+
+public enum EntryType {
+	CONFIG, S, FILTER
+}

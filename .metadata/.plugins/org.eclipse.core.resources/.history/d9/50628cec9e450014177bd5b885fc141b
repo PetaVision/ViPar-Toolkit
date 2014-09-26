@@ -1,0 +1,6 @@
+package gov.lanl.vineparser.settings.filter.expressions.values;
+
+public enum FilterType {
+	VALIDATE, VOID
+
+}

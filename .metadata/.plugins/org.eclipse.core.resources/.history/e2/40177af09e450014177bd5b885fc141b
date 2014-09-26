@@ -1,0 +1,5 @@
+package gov.lanl.vineparser.settings.filter.expressions.values;
+
+public enum LogicType {
+	AND, OR
+}

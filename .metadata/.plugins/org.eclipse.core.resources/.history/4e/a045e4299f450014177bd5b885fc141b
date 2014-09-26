@@ -1,0 +1,6 @@
+package gov.lanl.vineparser.settings.filter;
+
+public enum RelationType {
+	BROAD, SPECIFIC
+
+}
