@@ -231,11 +231,11 @@ The `FILTER_EXPRESSION` argument is constructed similarily to a typical if-state
 		"relation":"det",
 		"governor":"([@TargetWord])",
 		"dependent":"([@Strings:DEMONSTRATIVE_PRONOUNS])"}
-}
+    }
     
-> - Creates a validate filter called "hashtag".
-> - Sets a filter expression on the Vine object's text description.
-> - Validates the Vine if the text contains a target word 1-gram with a '#' hashtag in front.
+> - Creates a validate filter called "demPronoun".
+> - Sets a filter expression on the Vine object's "det" grammar relation.
+> - Validates the Vine if the Vine's meta-data contains a target word in the governor and a string literal from the Strings Object named "DEMONSTRATIVE_PRONOUNS".
 
 
 
