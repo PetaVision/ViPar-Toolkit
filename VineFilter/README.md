@@ -43,7 +43,12 @@ This section covers the creation of the VineFilter settings file.  This file is 
 | *entry* | "config" |	**MANDATORY** - Use "config" to specify the run configuration. |
 | *startAt* | NUM_VINE_TO_START_AT| **MANDATORY** - The nth Vine becomes the starting point. (Use 1 to start at the first Vine in the dataset).|
 | *numToCollect* | NUM_VINES_TO_COLLECT| **MANDATORY** - The number of accepted/filtered Vines to collect.|
-| *validationQuota* | NUM_FILTERS_TO_VALIDATE| **MANDATORY** - The number of Filters that must return true in order for a Vine to be accepted.|
+| *validationQuota* | NUM_FILTERS_TO_VALIDATE| **MANDATORY** - The number of Filters that must return TRUE in order for a Vine to be accepted.|
+| *targetWordsFile* | FILEPATH_TO_TARGET_WORDS| **MANDATORY** - The location of the target words file.|
+| *datasetDirectory* | FILEPATH_TO_VINE_DIRECTORY| **MANDATORY** - The location of the directory containing the Vine meta-data.|
+| *posTagsFile* | FILEPATH_TO_POS_TAGS| **MANDATORY** - The location of the `pos_tags.txt` file associated with the Vine meta-data.|
+| *relationTagsFile* | FILEPATH_TO_RELATION_TAGS| **MANDATORY** - The location of the `relation_tags.txt` associated with the Vine meta-data.|
+
 
 
 
