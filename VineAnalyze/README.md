@@ -9,7 +9,7 @@ VineAnalyze is a Java program that is placed inside the directory containing the
 
 Finally, the meta-data of the fully annotated Vine video dataset is stored in two generated JSON files:
 
-`analysis-good.json` - contains videos marked as containing the desired visual object/entity.
+`analysis-good.json` - contains videos marked as containing the desired visual object/entity.  
 `analysis-bad.json` - contains videos marked as nont containing the desired visual object/entity.
 
 ##Download
