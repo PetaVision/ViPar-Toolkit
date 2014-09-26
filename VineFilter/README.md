@@ -76,7 +76,52 @@ To create the Run Configuration section, simply copy and paste the following JSO
 > - Sets the paths to the dataset and its associated `pos_tags.txt` and `relation_tags.txt` files.  
     
 
+---
 
+####2. Strings Objects
+
+*OPTIONAL* - The **Strings Objects** section specifies String literals that can be used as Filter expression tokens.
+
+To create a Strings Object, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.
+
+**settings.json**
+
+    // //////////
+    // STRINGS //
+    // //////////
+    
+    {	"entry":"s",
+		"name":"<NAME_OF_STRINGS_OBJECT>",
+		"description":"<DESCRIPTION>",
+		"values":["<STRING_LITERAL_0>", "<STRING_LITERAL_1>", "<ETC...>"]
+    }
+    
+| Field | Argument | Description |
+|---|---|---|
+| *entry* | "s" |	**MANDATORY** - Use "s" to specify a Strings Object. |
+| *name* | NAME_OF_STRINGS_OBJECT| **MANDATORY** - The name to use when calling the Strings Object in a Filter expression token.|
+| *description* | DESCRIPTION | **MANDATORY** - A brief description about the Strings Objects values and intended use.|
+| *values* | STRING_LITERAL_*| **MANDATORY** - The String literals to include in this String Object. |
+
+**Example**
+
+    // //////////
+    // STRINGS //
+    // //////////
+    
+    {	"entry":"s",
+		"name":"DEMONSTRATIVE_PRONOUNS",
+		"description":"English demonstrative pronouns used as determiners.",
+		"values":["this", "that", "these", "those"]
+    }
+    
+> - Sets VineFilter to begin filtering dataset at the first Vine.  
+> - Collects 100 filtered Vines.  
+> - Requires two Filters be TRUE before accepting a filtered Vine.  
+> - Sets the paths to the dataset and its associated `pos_tags.txt` and `relation_tags.txt` files.  
+    
+
+---
 
 ##Usage
 
