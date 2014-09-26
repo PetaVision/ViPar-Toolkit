@@ -30,10 +30,6 @@ To create the Run Configuration section, simply copy and paste the following JSO
 
 
 **Syntax:**
-
-    // ////////////////////
-    // RUN CONFIGURATION //
-    // ////////////////////
     
     {	"entry":"config",
 		"startAt":<NUM_VINE_TO_START_AT>,
@@ -89,10 +85,6 @@ To create the Run Configuration section, simply copy and paste the following JSO
 To create a Strings Object, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.
 
 **Syntax:**
-
-    // //////////
-    // STRINGS //
-    // //////////
     
     {	"entry":"s",
 		"name":"<NAME_OF_STRINGS_OBJECT>",
@@ -135,10 +127,6 @@ To create a Strings Object, simply copy and paste the following JSON object into
 To create a Filter, simply copy and paste the following JSON object into a settings file (eg: `settings.json`), substituting the arguments for their respective values.  
 
 **Syntax:**
-
-    // //////////
-    // FILTERS //
-    // //////////
     
     {	"entry":"filter",
 		"name":"<NAME_OF_FILTER>",
